@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Smart Hardware & Paint — Management System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Inventory, sales, and paint-shade management for hardware and construction supplies." />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <div class="brand">
+        <div class="logo">BPH</div>
+        <div>
+          <h1>BANGLADESH PAINTS & HARDWARE</h1>
+          <p class="tagline">Database-focused supply management for stores & contractors</p>
+        </div>
+      </div>
+      <nav class="top-nav">
+        <a href="#features">Features</a>
+        <a href="#products">Products</a>
+        <a href="#reports">Reports</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero card" id="hero">
+      <div class="hero-visual">
+        <img src="../OIP.webp" alt="Bangladesh Paints & Hardware" class="hero-image" />
+        <!-- sparkle layer -->
+        <div class="sparkle-layer" aria-hidden="true"></div>
+      </div>
+      <div class="hero-decoration">
+        <div class="deco-blob" style="top: 20%; left: 10%; background: linear-gradient(135deg, #f94144, #f9844a);"></div>
+        <div class="deco-blob" style="bottom: 15%; right: 12%; background: linear-gradient(135deg, #90be6d, #f9c74f);"></div>
+      </div>
+
+      <div class="hero-content">
+        <h2>Beautifully simple inventory and paint management</h2>
+        <p>Centralized products, real-time stock, sales & billing, and an industry-first paint shade & formula database — designed for speed and reliability.</p>
+        <div class="hero-actions">
+          <a class="cta primary" href="#products">Explore Products</a>
+          <a class="cta ghost" href="#features">See Modules</a>
+        </div>
+
+        <div class="swatch-row">
+          <div class="swatch" data-color="#f94144"><span>#F94144</span></div>
+          <div class="swatch" data-color="#f9844a"><span>#F9844A</span></div>
+          <div class="swatch" data-color="#f9c74f"><span>#F9C74F</span></div>
+          <div class="swatch" data-color="#90be6d"><span>#90BE6D</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-bar">
+      <div class="stat-item">
+        <div class="stat-number">10,000+</div>
+        <div class="stat-label">Products Managed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Paint Shades</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Real-Time Tracking</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">99.9%</div>
+        <div class="stat-label">Data Accuracy</div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <h3>Core Modules</h3>
+      <div class="grid">
+        <article class="feature-card">
+          <h4>Product Management</h4>
+          <p>Detailed product attributes, categories, and SKU management with indexing for fast search.</p>
+        </article>
+        <article class="feature-card">
+          <h4>Inventory Control</h4>
+          <p>Real-time stock, FIFO stock movement logs, low-stock triggers, and safe reorder suggestions.</p>
+        </article>
+        <article class="feature-card">
+          <h4>Customers & Dealers</h4>
+          <p>Profiles, credit limits, transaction history and purchase analytics for business decisions.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="paint-gallery" class="paint-gallery card">
+      <h3>Premium Paint Shades</h3>
+      <div class="shade-grid">
+        <div class="shade-card">
+          <div class="shade-swatch" style="background: linear-gradient(135deg, #f94144, #f9844a);"></div>
+          <div class="shade-info">
+            <strong>Crimson Blaze</strong>
+            <p>RGB(249, 65, 68)</p>
+          </div>
+        </div>
+        <div class="shade-card">
+          <div class="shade-swatch" style="background: linear-gradient(135deg, #f9c74f, #f9844a);"></div>
+          <div class="shade-info">
+            <strong>Sunset Gold</strong>
+            <p>RGB(249, 199, 79)</p>
+          </div>
+        </div>
+        <div class="shade-card">
+          <div class="shade-swatch" style="background: linear-gradient(135deg, #90be6d, #f9c74f);"></div>
+          <div class="shade-info">
+            <strong>Mint Leaf</strong>
+            <p>RGB(144, 190, 109)</p>
+          </div>
+        </div>
+        <div class="shade-card">
+          <div class="shade-swatch" style="background: linear-gradient(135deg, #2b6cb0, #4c7bd9);"></div>
+          <div class="shade-info">
+            <strong>Ocean Deep</strong>
+            <p>RGB(43, 108, 176)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="products" class="products">
+      <h3>Product Preview</h3>
+      <div class="product-grid">
+        <div class="product-card card">
+          <div class="product-head">
+            <div class="p-title">Premium Emulsion Paint</div>
+            <div class="p-badge">PNT-001</div>
+          </div>
+          <div class="p-meta">Stock: <strong>24</strong></div>
+          <div class="p-price">₹1,250</div>
+          <div class="color-swatches">
+            <div class="color" style="background:#f94144"></div>
+            <div class="color" style="background:#f9844a"></div>
+            <div class="color" style="background:#f9c74f"></div>
+          </div>
+        </div>
+
+        <div class="product-card card">
+          <div class="product-head">
+            <div class="p-title">Galvanized Nails (1kg)</div>
+            <div class="p-badge">HDW-011</div>
+          </div>
+          <div class="p-meta">Stock: <strong>120</strong></div>
+          <div class="p-price">₹180</div>
+        </div>
+
+        <div class="product-card card">
+          <div class="product-head">
+            <div class="p-title">Iron Rod 10mm</div>
+            <div class="p-badge">IRN-210</div>
+          </div>
+          <div class="p-meta">Stock: <strong>42</strong></div>
+          <div class="p-price">₹450</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-spotlight card">
+      <div class="cta-content">
+        <h3>Ready to Upgrade Your Supply Chain?</h3>
+        <p>Get instant access to real-time inventory, advanced analytics, and paint shade management — all in one powerful system.</p>
+        <a class="cta primary large" href="#contact">Get Started Now</a>
+      </div>
+      <div class="cta-visual">
+        <svg width="300" height="240" viewBox="0 0 300 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="120" r="100" fill="#2b6cb0" opacity="0.1"/>
+          <circle cx="150" cy="120" r="80" fill="#2b6cb0" opacity="0.06"/>
+          <path d="M100 120L150 70L200 120M150 70V170" stroke="#2b6cb0" stroke-width="3" opacity="0.6"/>
+        </svg>
+      </div>
+    </section>
+
+    <section id="reports" class="reports card">
+      <h3>Reporting Snapshot</h3>
+      <div class="report-grid">
+        <div class="report">Top-selling products — <strong>Emulsion Paint</strong></div>
+        <div class="report">Monthly revenue — <strong>$12,450</strong></div>
+        <div class="report">Low-stock alerts — <strong>3 items</strong></div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <h3>Contact & Next Steps</h3>
+      <p>Want this wired to your database and dashboards? I can scaffold the schema, stored procedures, and a small demo API.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row card">
+      <div>© <span id="year"></span> Smart Hardware & Paint</div>
+      <div class="footer-links">Built for inventory-first operations</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.querySelectorAll('.swatch').forEach(s => {
+      s.addEventListener('mouseenter', () => {
+        document.body.style.setProperty('--accent', s.dataset.color);
+        s.style.transform = 'scale(1.08)';
+      });
+      s.addEventListener('mouseleave', () => {
+        document.body.style.setProperty('--accent', '#2b6cb0');
+        s.style.transform = '';
+      });
+      s.addEventListener('click', () => {
+        popSparkle(s);
+      });
+    });
+
+    // create a sparkle at element
+    function popSparkle(el){
+      const rect = el.getBoundingClientRect();
+      const layer = document.querySelector('.sparkle-layer');
+      const spark = document.createElement('span');
+      spark.className = 'spark';
+      const x = rect.left + rect.width/2 - layer.getBoundingClientRect().left;
+      const y = rect.top + rect.height/2 - layer.getBoundingClientRect().top;
+      spark.style.left = x + 'px';
+      spark.style.top = y + 'px';
+      layer.appendChild(spark);
+      setTimeout(()=> spark.remove(), 900);
+    }
+
+    // gentle random sparkles over hero
+    (function randomSparkles(){
+      const layer = document.querySelector('.sparkle-layer');
+      if(!layer) return;
+      setInterval(()=>{
+        const s = document.createElement('span');
+        s.className = 'spark mini';
+        s.style.left = Math.random()*layer.clientWidth + 'px';
+        s.style.top = Math.random()*layer.clientHeight + 'px';
+        layer.appendChild(s);
+        setTimeout(()=> s.remove(), 1800);
+      }, 700);
+    })();
+  </script>
+</body>
+</html>
