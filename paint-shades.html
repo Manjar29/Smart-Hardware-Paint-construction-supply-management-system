@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Paint Shades & Formulas — BANGLADESH PAINTS & HARDWARE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .texture-badge{display:inline-block;padding:4px 10px;border-radius:30px;font-size:11px;font-weight:600;background:#f1f5f9;color:var(--text-muted);border:1px solid #e2e8f0;margin-right:6px;margin-top:4px;}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <div class="brand">
+        <div class="logo"><i class="fa-solid fa-layer-group"></i></div>
+        <div>
+          <h1>BANGLADESH PAINTS & HARDWARE</h1>
+          <p class="tagline">Database-focused supply management for stores & contractors</p>
+        </div>
+      </div>
+      <nav class="top-nav">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="customer.html"><i class="fa-solid fa-shop"></i> Customer Store</a>
+        <a href="products.html"><i class="fa-solid fa-boxes-stacked"></i> Products</a>
+        <a href="paint-shades.html" class="active"><i class="fa-solid fa-palette"></i> Paint Shades</a>
+        <a href="inventory.html"><i class="fa-solid fa-warehouse"></i> Inventory</a>
+        <a href="reports.html"><i class="fa-solid fa-chart-line"></i> Reports</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-hero card">
+      <h2><i class="fa-solid fa-palette" style="color:var(--primary);"></i> Paint Formulas Database</h2>
+      <p>105 shade formulas across Synthetic, Acrylic, Coat, and Steel categories</p>
+      <div class="search-filter">
+        <div style="position:relative;flex:1;display:flex;align-items:center;">
+          <i class="fa-solid fa-magnifying-glass" style="position:absolute;left:16px;color:var(--text-muted);"></i>
+          <input type="text" id="shadeSearch" placeholder="Search shade name or code..." class="search-box-input" style="padding-left:44px;width:100%;"/>
+        </div>
+        <div style="position:relative;display:flex;align-items:center;">
+          <i class="fa-solid fa-filter" style="position:absolute;left:16px;color:var(--text-muted);pointer-events:none;"></i>
+          <select id="finishFilter" class="filter-select" style="padding-left:44px;">
+            <option value="">All Categories</option>
+            <option value="Synthetic">Synthetic</option>
+            <option value="Acrylic">Acrylic</option>
+            <option value="Coat">Protective Coat</option>
+            <option value="Steel">Steel Metallic</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top:12px;font-size:13px;color:var(--text-muted);" id="counterText"></div>
+    </section>
+
+    <section class="shades-showcase" id="shadesGrid"></section>
+
+    <section class="card action-section">
+      <a href="index.html" class="cta ghost"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row card">
+      <div>© <span id="year"></span> BANGLADESH PAINTS & HARDWARE</div>
+      <div class="footer-links"><i class="fa-solid fa-palette"></i> Paint formulas & shade database</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent=new Date().getFullYear();
+
+    // Build 105 shades inline
+    function buildShades(){
+      const adj=["Royal","Cyber","Rustic","Emerald","Arctic","Sunset","Tuscan","Ocean","Desert","Forest","Rose","Sandalwood","Midnight","Polar","Electric","Velvet","Vintage","Solar","Pacific","Mountain","Breeze","Autumn","Spring","Lagoon","Glacier","Cosmic","Sahara","Jungle","Safari","Nebula"];
+      const tone=["Mist","Blaze","Dust","Shadow","Glow","Frost","Shield","Breeze","Haze","Beam","Pulse","Storm","Drift","Aura","Peak","Dawn","Twilight","Wave","Shell","Petal"];
+      const cats=["Synthetic","Acrylic","Coat"];
+      const arr=[
+        {id:"SH-001",name:"Crimson Blaze",code:"CB-001",cat:"Acrylic",rgb:"rgb(244,63,94)",mix:"Red Base 40% + Yellow 15% + White 45%",finish:"Matte",specs:["Matte Finish","Eco-friendly","Weather Resistant"]},
+        {id:"SH-002",name:"Sunset Gold",code:"SG-002",cat:"Acrylic",rgb:"rgb(245,158,11)",mix:"Yellow Base 60% + Red 15% + White 25%",finish:"Semi-Gloss",specs:["Semi-gloss finish","Fade Resistant","Interior/Exterior"]},
+        {id:"SH-003",name:"Mint Leaf",code:"ML-003",cat:"Acrylic",rgb:"rgb(16,185,129)",mix:"Green Base 50% + Yellow 20% + White 30%",finish:"Satin",specs:["Satin finish","UV Protected","Low VOC"]},
+        {id:"SH-004",name:"Ocean Deep",code:"OD-004",cat:"Acrylic",rgb:"rgb(59,130,246)",mix:"Blue Base 70% + Black 15% + White 15%",finish:"Glossy",specs:["Gloss finish","Premium Quality","Long-lasting"]}
+      ];
+      let id=5;
+      for(let i=0;i<91;i++){
+        const c=cats[i%3];const a=adj[(i*3)%adj.length],t=tone[(i*7)%tone.length];
+        let r=50+((i*17)%180),g=50+((i*31)%180),b=50+((i*47)%180);
+        if(a==="Forest"||a==="Emerald"){r=20;g=140+(i%60);b=60;}
+        if(a==="Sunset"||a==="Solar"){r=180+(i%70);g=80+(i%80);b=20;}
+        if(a==="Ocean"||a==="Midnight"){r=10;g=80+(i%60);b=180+(i%70);}
+        if(a==="Arctic"||a==="Polar"){r=200+(i%50);g=220+(i%30);b=240;}
+        let f=c==="Synthetic"?"High Gloss":c==="Coat"?"Protective Coat":(i%2===0?"Satin":"Eggshell");
+        arr.push({id:"SH-"+String(id).padStart(3,"0"),name:a+" "+t,code:a.substring(0,2).toUpperCase()+"-"+(100+id),cat:c,rgb:`rgb(${r},${g},${b})`,mix:c+" Base 70% + Pigment 20% + Binder 10%",finish:f,specs:[f+" Finish","UV Protective","Eco-friendly"]});
+        id++;
+      }
+      const steel=[
+        {id:"SH-091",name:"Industrial Steel",code:"IS-901",cat:"Steel",rgb:"rgb(112,128,144)",mix:"Silver 75% + Black 15% + Blue 10%",finish:"Metallic",specs:["Metallic Shine","Anti-Corrosive","High Durability"]},
+        {id:"SH-092",name:"Galvanized Gray",code:"GG-902",cat:"Steel",rgb:"rgb(142,145,143)",mix:"Zinc 80% + Black 12% + Yellow 8%",finish:"Matte Metallic",specs:["Rust Protection","Galvanized Texture","Weather Guard"]},
+        {id:"SH-093",name:"Brushed Chrome",code:"BC-903",cat:"Steel",rgb:"rgb(192,192,192)",mix:"Silver 85% + White 10% + Black 5%",finish:"Satin Metallic",specs:["Satin Finish","Low VOC","Indoor Accent"]},
+        {id:"SH-094",name:"Gunmetal Blue",code:"GB-904",cat:"Steel",rgb:"rgb(69,85,96)",mix:"Blue 60% + Black 30% + White 10%",finish:"Glossy Metallic",specs:["High Gloss","Deep Tone","Anti-Scratch"]},
+        {id:"SH-095",name:"Rusty Iron",code:"RI-905",cat:"Steel",rgb:"rgb(183,115,87)",mix:"Red Oxide 50% + Brown 30% + Yellow 20%",finish:"Textured",specs:["Textured Matte","Designer Finish","Fast Dry"]},
+        {id:"SH-096",name:"Copper Glow",code:"CG-906",cat:"Steel",rgb:"rgb(184,115,51)",mix:"Gold 65% + Red 25% + Yellow 10%",finish:"Semi-Gloss Metallic",specs:["Metallic Glow","Heat Resistant","UV Protect"]},
+        {id:"SH-097",name:"Antique Bronze",code:"AB-907",cat:"Steel",rgb:"rgb(102,93,76)",mix:"Yellow 45% + Brown 35% + Black 20%",finish:"Matte Bronze",specs:["Matte Finish","Luxury Tone","Heavy Coat"]},
+        {id:"SH-098",name:"Titanium Silver",code:"TS-908",cat:"Steel",rgb:"rgb(168,175,175)",mix:"Silver 90% + White 5% + Black 5%",finish:"High Gloss",specs:["High Gloss Shine","Extreme Strength","Marine Grade"]},
+        {id:"SH-099",name:"Carbon Black Metallic",code:"CB-909",cat:"Steel",rgb:"rgb(43,44,46)",mix:"Black 85% + Silver 15%",finish:"Satin Metallic",specs:["Deep Black","Satin Reflection","Scratch Shield"]},
+        {id:"SH-100",name:"Stainless Steel",code:"SS-910",cat:"Steel",rgb:"rgb(219,222,224)",mix:"Silver 80% + Blue 10% + White 10%",finish:"High Gloss Metallic",specs:["Corrosion Free","Mirrored Gloss","Easy Clean"]}
+      ];
+      return arr.concat(steel);
+    }
+
+    const allShades=buildShades();
+    const searchEl=document.getElementById('shadeSearch');
+    const filterEl=document.getElementById('finishFilter');
+    searchEl.addEventListener('input',render);
+    filterEl.addEventListener('change',render);
+    render();
+
+    function render(){
+      const grid=document.getElementById('shadesGrid');grid.innerHTML='';
+      const q=searchEl.value.toLowerCase(),f=filterEl.value;
+      const filtered=allShades.filter(s=>(!q||s.name.toLowerCase().includes(q)||s.code.toLowerCase().includes(q))&&(!f||s.cat===f));
+      document.getElementById('counterText').innerHTML='Showing <strong>'+filtered.length+'</strong> of <strong>'+allShades.length+'</strong> formulas';
+      filtered.forEach(s=>{
+        const specs=s.specs.map(t=>'<span class="texture-badge">'+t+'</span>').join('');
+        const card=document.createElement('div');card.className='shade-detail-card card';
+        card.innerHTML=`<div class="shade-detail-visual" style="background:${s.rgb};"></div>
+        <div class="shade-detail-info">
+          <div style="display:flex;justify-content:space-between;align-items:start;"><h3>${s.name}</h3><span class="badge healthy" style="font-size:10px;background:rgba(79,70,229,0.08);color:var(--primary);">${s.cat}</span></div>
+          <span class="shade-code"><i class="fa-solid fa-microchip"></i> ${s.id} | ${s.code}</span>
+          <div class="formula-group"><strong><i class="fa-solid fa-fill-drip"></i> Base Mix:</strong><div class="formula-item">${s.mix}</div></div>
+          <div class="formula-group"><strong><i class="fa-solid fa-circle-half-stroke"></i> Finish:</strong><div class="formula-item">${s.finish}</div></div>
+          <div class="formula-group"><strong><i class="fa-solid fa-shield"></i> Specs:</strong><div>${specs}</div></div>
+        </div>`;
+        grid.appendChild(card);
+      });
+      if(filtered.length===0) grid.innerHTML='<div class="card" style="text-align:center;color:var(--text-muted);padding:40px;">No formulas found.</div>';
+    }
+  </script>
+</body>
+</html>

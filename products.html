@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Products — BANGLADESH PAINTS & HARDWARE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <div class="brand">
+        <div class="logo"><i class="fa-solid fa-layer-group"></i></div>
+        <div>
+          <h1>BANGLADESH PAINTS & HARDWARE</h1>
+          <p class="tagline">Database-focused supply management for stores & contractors</p>
+        </div>
+      </div>
+      <nav class="top-nav">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="customer.html"><i class="fa-solid fa-shop"></i> Customer Store</a>
+        <a href="products.html" class="active"><i class="fa-solid fa-boxes-stacked"></i> Products</a>
+        <a href="paint-shades.html"><i class="fa-solid fa-palette"></i> Paint Shades</a>
+        <a href="inventory.html"><i class="fa-solid fa-warehouse"></i> Inventory</a>
+        <a href="reports.html"><i class="fa-solid fa-chart-line"></i> Reports</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-hero card">
+      <h2><i class="fa-solid fa-boxes-stacked" style="color: var(--primary);"></i> Admin — Product Catalog</h2>
+      <p>Manage product profiles, SKU codes, and stock availability across all categories</p>
+      <div class="search-filter">
+        <div style="position:relative;flex:1;display:flex;align-items:center;">
+          <i class="fa-solid fa-magnifying-glass" style="position:absolute;left:16px;color:var(--text-muted);"></i>
+          <input type="text" id="searchInput" placeholder="Search product name or SKU..." class="search-box-input" style="padding-left:44px;width:100%;" />
+        </div>
+        <div style="position:relative;display:flex;align-items:center;">
+          <i class="fa-solid fa-filter" style="position:absolute;left:16px;color:var(--text-muted);pointer-events:none;"></i>
+          <select id="categoryFilter" class="filter-select" style="padding-left:44px;">
+            <option value="">All Categories</option>
+            <option value="paints">Paints</option>
+            <option value="hardware">Hardware</option>
+            <option value="iron">Iron & Steel</option>
+            <option value="tools">Tools</option>
+            <option value="construction">Construction</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="products-table card">
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th><i class="fa-solid fa-tag"></i> Product Name</th>
+              <th><i class="fa-solid fa-barcode"></i> SKU</th>
+              <th><i class="fa-solid fa-layer-group"></i> Category</th>
+              <th><i class="fa-solid fa-indian-rupee-sign"></i> Price</th>
+              <th><i class="fa-solid fa-cubes"></i> Stock</th>
+              <th><i class="fa-solid fa-circle-info"></i> Status</th>
+            </tr>
+          </thead>
+          <tbody id="productsBody">
+            <tr><td><strong>Premium Emulsion Paint (1L)</strong></td><td>PNT-001</td><td>Paints</td><td>₹1,250</td><td>24</td><td><span class="badge in-stock"><i class="fa-solid fa-circle-check"></i> In Stock</span></td></tr>
+            <tr><td><strong>Weathercoat Shield (4L)</strong></td><td>PNT-002</td><td>Paints</td><td>₹3,400</td><td>15</td><td><span class="badge in-stock"><i class="fa-solid fa-circle-check"></i> In Stock</span></td></tr>
+            <tr><td><strong>Gloss Wood Polish (500ml)</strong></td><td>PNT-045</td><td>Paints</td><td>₹320</td><td>8</td><td><span class="badge low-stock"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock</span></td></tr>
+            <tr><td><strong>Galvanized Nails (1kg)</strong></td><td>HDW-011</td><td>Hardware</td><td>₹180</td><td>120</td><td><span class="badge in-stock"><i class="fa-solid fa-circle-check"></i> In Stock</span></td></tr>
+            <tr><td><strong>Premium Screws Pack (100pc)</strong></td><td>HDW-012</td><td>Hardware</td><td>₹120</td><td>250</td><td><span class="badge in-stock"><i class="fa-solid fa-circle-check"></i> In Stock</span></td></tr>
+            <tr><td><strong>Drill Bit Set (13pcs)</strong></td><td>HDW-089</td><td>Tools</td><td>₹280</td><td>15</td><td><span class="badge in-stock"><i class="fa-solid fa-circle-check"></i> In Stock</span></td></tr>
+            <tr><td><strong>Heavy Duty Steel Hammer</strong></td><td>TL-001</td><td>Tools</td><td>₹350</td><td>35</td><td><span class="badge in-stock"><i class="fa-solid fa-circle-check"></i> In Stock</span></td></tr>
+            <tr><td><strong>BSRM Iron Rod 10mm (6m)</strong></td><td>IRN-210</td><td>Iron & Steel</td><td>₹450</td><td>42</td><td><span class="badge in-stock"><i class="fa-solid fa-circle-check"></i> In Stock</span></td></tr>
+            <tr><td><strong>Steel Plate 4×8 ft</strong></td><td>IRN-211</td><td>Iron & Steel</td><td>₹2,800</td><td>10</td><td><span class="badge low-stock"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock</span></td></tr>
+            <tr><td><strong>Ready Mix Concrete (25kg)</strong></td><td>CST-001</td><td>Construction</td><td>₹850</td><td>50</td><td><span class="badge in-stock"><i class="fa-solid fa-circle-check"></i> In Stock</span></td></tr>
+            <tr><td><strong>Lafarge Cement (50kg)</strong></td><td>CST-002</td><td>Construction</td><td>₹650</td><td>0</td><td><span class="badge out-stock"><i class="fa-solid fa-circle-xmark"></i> Out of Stock</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card action-section">
+      <a href="index.html" class="cta ghost"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row card">
+      <div>© <span id="year"></span> BANGLADESH PAINTS & HARDWARE</div>
+      <div class="footer-links"><i class="fa-solid fa-database"></i> Database-driven inventory management</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    searchInput.addEventListener('input', filterProducts);
+    categoryFilter.addEventListener('change', filterProducts);
+    function filterProducts(){
+      const s=searchInput.value.toLowerCase(), c=categoryFilter.value.toLowerCase();
+      document.querySelectorAll('#productsBody tr').forEach(r=>{
+        const name=r.cells[0].textContent.toLowerCase(), sku=r.cells[1].textContent.toLowerCase(), cat=r.cells[2].textContent.toLowerCase();
+        const ms=name.includes(s)||sku.includes(s);
+        const mc=!c||(c==='iron'?cat.includes('iron'):cat.includes(c));
+        r.style.display=ms&&mc?'':'none';
+      });
+    }
+  </script>
+</body>
+</html>

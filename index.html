@@ -3,67 +3,185 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Smart Hardware & Paint — Management System</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>Bangladesh Paints & Hardware — Supply Management System</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
   <meta name="description" content="Inventory, sales, and paint-shade management for hardware and construction supplies." />
+  <style>
+    .portal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 32px 0;
+    }
+    .portal-card {
+      padding: 40px 32px;
+      border-radius: var(--radius-lg);
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .portal-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .portal-card:hover {
+      transform: translateY(-8px);
+    }
+    .portal-card:hover::before {
+      opacity: 1;
+    }
+    .portal-customer {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(14, 165, 233, 0.08));
+      border: 2px solid rgba(16, 185, 129, 0.15);
+    }
+    .portal-customer:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      box-shadow: 0 20px 40px rgba(16, 185, 129, 0.12);
+    }
+    .portal-admin {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(139, 92, 246, 0.08));
+      border: 2px solid rgba(79, 70, 229, 0.15);
+    }
+    .portal-admin:hover {
+      border-color: rgba(79, 70, 229, 0.4);
+      box-shadow: 0 20px 40px rgba(79, 70, 229, 0.12);
+    }
+    .portal-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    .portal-customer .portal-icon {
+      background: linear-gradient(135deg, #10b981, #0ea5e9);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(16, 185, 129, 0.25);
+    }
+    .portal-admin .portal-icon {
+      background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(79, 70, 229, 0.25);
+    }
+    .portal-card h3 {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .portal-customer h3 { color: #065f46; }
+    .portal-admin h3 { color: #3730a3; }
+    .portal-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .portal-enter {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 13px;
+      color: #fff;
+    }
+    .portal-customer .portal-enter {
+      background: linear-gradient(135deg, #10b981, #0ea5e9);
+    }
+    .portal-admin .portal-enter {
+      background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+    }
+    @media (max-width: 700px) {
+      .portal-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
     <div class="container header-row">
       <div class="brand">
-        <div class="logo">BPH</div>
+        <div class="logo"><i class="fa-solid fa-layer-group"></i></div>
         <div>
           <h1>BANGLADESH PAINTS & HARDWARE</h1>
           <p class="tagline">Database-focused supply management for stores & contractors</p>
         </div>
       </div>
       <nav class="top-nav">
-        <a href="#features">Features</a>
-        <a href="#products">Products</a>
-        <a href="#reports">Reports</a>
-        <a href="#contact">Contact</a>
+        <a href="index.html" class="active"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="customer.html"><i class="fa-solid fa-shop"></i> Customer Store</a>
+        <a href="products.html"><i class="fa-solid fa-gears"></i> Admin Panel</a>
       </nav>
     </div>
   </header>
 
   <main class="container">
+    <!-- Hero Section -->
     <section class="hero card" id="hero">
       <div class="hero-visual">
         <img src="../OIP.webp" alt="Bangladesh Paints & Hardware" class="hero-image" />
-        <!-- sparkle layer -->
         <div class="sparkle-layer" aria-hidden="true"></div>
       </div>
       <div class="hero-decoration">
-        <div class="deco-blob" style="top: 20%; left: 10%; background: linear-gradient(135deg, #f94144, #f9844a);"></div>
-        <div class="deco-blob" style="bottom: 15%; right: 12%; background: linear-gradient(135deg, #90be6d, #f9c74f);"></div>
+        <div class="deco-blob" style="top: 20%; left: 10%; background: linear-gradient(135deg, #f43f5e, #f97316);"></div>
+        <div class="deco-blob" style="bottom: 15%; right: 12%; background: linear-gradient(135deg, #10b981, #f59e0b);"></div>
       </div>
 
       <div class="hero-content">
-        <h2>Beautifully simple inventory and paint management</h2>
-        <p>Centralized products, real-time stock, sales & billing, and an industry-first paint shade & formula database — designed for speed and reliability.</p>
+        <h2>Centralized Hardware & Customized Paint System</h2>
+        <p>A dual-portal relational DBMS application. Customers can select from 105+ formulas, customize paint colors, verify live stock and checkout. Admins manage full inventory, monitoring and analytics.</p>
         <div class="hero-actions">
-          <a class="cta primary" href="#products">Explore Products</a>
-          <a class="cta ghost" href="#features">See Modules</a>
+          <a class="cta primary" href="customer.html"><i class="fa-solid fa-shop"></i> Customer Store</a>
+          <a class="cta ghost" href="products.html"><i class="fa-solid fa-gears"></i> Admin Dashboard</a>
         </div>
 
         <div class="swatch-row">
-          <div class="swatch" data-color="#f94144"><span>#F94144</span></div>
-          <div class="swatch" data-color="#f9844a"><span>#F9844A</span></div>
-          <div class="swatch" data-color="#f9c74f"><span>#F9C74F</span></div>
-          <div class="swatch" data-color="#90be6d"><span>#90BE6D</span></div>
+          <div class="swatch" data-color="#f43f5e" style="background-color: #f43f5e;"><span>#F43F5E</span></div>
+          <div class="swatch" data-color="#f97316" style="background-color: #f97316;"><span>#F97316</span></div>
+          <div class="swatch" data-color="#f59e0b" style="background-color: #f59e0b;"><span>#F59E0B</span></div>
+          <div class="swatch" data-color="#10b981" style="background-color: #10b981;"><span>#10B981</span></div>
         </div>
       </div>
     </section>
 
+    <!-- Portal Selection -->
+    <div class="portal-grid">
+      <a href="customer.html" class="portal-card portal-customer">
+        <div class="portal-icon"><i class="fa-solid fa-shop"></i></div>
+        <h3>Customer Storefront</h3>
+        <p>Browse products, customize paint colors from 105+ shade formulas, add to cart, and place orders with real-time stock checking.</p>
+        <span class="portal-enter"><i class="fa-solid fa-arrow-right"></i> Enter Customer Portal</span>
+      </a>
+      <a href="products.html" class="portal-card portal-admin">
+        <div class="portal-icon"><i class="fa-solid fa-gears"></i></div>
+        <h3>Admin Dashboard</h3>
+        <p>Manage product inventory, monitor stock levels, view paint shade database, track sales reports, and analyze business insights.</p>
+        <span class="portal-enter"><i class="fa-solid fa-arrow-right"></i> Enter Admin Panel</span>
+      </a>
+    </div>
+
+    <!-- Stats -->
     <section class="stats-bar">
       <div class="stat-item">
-        <div class="stat-number">10,000+</div>
-        <div class="stat-label">Products Managed</div>
+        <div class="stat-number">11</div>
+        <div class="stat-label">Database Products</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">500+</div>
-        <div class="stat-label">Paint Shades</div>
+        <div class="stat-number">105</div>
+        <div class="stat-label">Paint Shade Formulas</div>
       </div>
       <div class="stat-item">
         <div class="stat-number">24/7</div>
@@ -75,152 +193,124 @@
       </div>
     </section>
 
+    <!-- Core Modules -->
     <section id="features" class="features">
-      <h3>Core Modules</h3>
+      <h3><i class="fa-solid fa-cubes"></i> Core Modules</h3>
       <div class="grid">
         <article class="feature-card">
-          <h4>Product Management</h4>
-          <p>Detailed product attributes, categories, and SKU management with indexing for fast search.</p>
+          <h4><i class="fa-solid fa-list-check" style="color: var(--primary);"></i> Product Management</h4>
+          <p>Detailed product attributes, categories, and SKU management with database indexing for instant searches.</p>
         </article>
         <article class="feature-card">
-          <h4>Inventory Control</h4>
-          <p>Real-time stock, FIFO stock movement logs, low-stock triggers, and safe reorder suggestions.</p>
+          <h4><i class="fa-solid fa-dolly" style="color: var(--secondary);"></i> Inventory Control</h4>
+          <p>Real-time stock monitoring, FIFO stock movement logs, low-stock notifications, and automatic safety reorder suggestions.</p>
         </article>
         <article class="feature-card">
-          <h4>Customers & Dealers</h4>
-          <p>Profiles, credit limits, transaction history and purchase analytics for business decisions.</p>
+          <h4><i class="fa-solid fa-users" style="color: var(--success);"></i> Customers & Contractors</h4>
+          <p>Profiles, transaction history, payments log, and purchase analytics to drive contractor relationships.</p>
         </article>
       </div>
     </section>
 
+    <!-- Premium Shades Preview -->
     <section id="paint-gallery" class="paint-gallery card">
-      <h3>Premium Paint Shades</h3>
+      <h3><i class="fa-solid fa-brush"></i> Premium Paint Shades</h3>
       <div class="shade-grid">
         <div class="shade-card">
-          <div class="shade-swatch" style="background: linear-gradient(135deg, #f94144, #f9844a);"></div>
-          <div class="shade-info">
-            <strong>Crimson Blaze</strong>
-            <p>RGB(249, 65, 68)</p>
-          </div>
+          <div class="shade-swatch" style="background: linear-gradient(135deg, #f43f5e, #f97316);"></div>
+          <div class="shade-info"><strong>Crimson Blaze</strong><p>Acrylic • Matte</p></div>
         </div>
         <div class="shade-card">
-          <div class="shade-swatch" style="background: linear-gradient(135deg, #f9c74f, #f9844a);"></div>
-          <div class="shade-info">
-            <strong>Sunset Gold</strong>
-            <p>RGB(249, 199, 79)</p>
-          </div>
+          <div class="shade-swatch" style="background: linear-gradient(135deg, #f59e0b, #f97316);"></div>
+          <div class="shade-info"><strong>Sunset Gold</strong><p>Acrylic • Semi-Gloss</p></div>
         </div>
         <div class="shade-card">
-          <div class="shade-swatch" style="background: linear-gradient(135deg, #90be6d, #f9c74f);"></div>
-          <div class="shade-info">
-            <strong>Mint Leaf</strong>
-            <p>RGB(144, 190, 109)</p>
-          </div>
+          <div class="shade-swatch" style="background: linear-gradient(135deg, #10b981, #f59e0b);"></div>
+          <div class="shade-info"><strong>Mint Leaf</strong><p>Acrylic • Satin</p></div>
         </div>
         <div class="shade-card">
-          <div class="shade-swatch" style="background: linear-gradient(135deg, #2b6cb0, #4c7bd9);"></div>
-          <div class="shade-info">
-            <strong>Ocean Deep</strong>
-            <p>RGB(43, 108, 176)</p>
-          </div>
+          <div class="shade-swatch" style="background: linear-gradient(135deg, #3b82f6, #8b5cf6);"></div>
+          <div class="shade-info"><strong>Ocean Deep</strong><p>Acrylic • Glossy</p></div>
         </div>
+        <div class="shade-card">
+          <div class="shade-swatch" style="background: linear-gradient(135deg, #708090, #455560);"></div>
+          <div class="shade-info"><strong>Industrial Steel</strong><p>Steel • Metallic</p></div>
+        </div>
+        <div class="shade-card">
+          <div class="shade-swatch" style="background: linear-gradient(135deg, #b87333, #664d1b);"></div>
+          <div class="shade-info"><strong>Copper Glow</strong><p>Steel • Semi-Gloss</p></div>
+        </div>
+      </div>
+      <div class="action-section" style="margin-top:24px; border-radius: var(--radius-md);">
+        <a href="paint-shades.html" class="cta ghost"><i class="fa-solid fa-palette"></i> Explore 105 Custom Paint Formulas →</a>
       </div>
     </section>
 
-    <section id="products" class="products">
-      <h3>Product Preview</h3>
-      <div class="product-grid">
-        <div class="product-card card">
-          <div class="product-head">
-            <div class="p-title">Premium Emulsion Paint</div>
-            <div class="p-badge">PNT-001</div>
-          </div>
-          <div class="p-meta">Stock: <strong>24</strong></div>
-          <div class="p-price">₹1,250</div>
-          <div class="color-swatches">
-            <div class="color" style="background:#f94144"></div>
-            <div class="color" style="background:#f9844a"></div>
-            <div class="color" style="background:#f9c74f"></div>
-          </div>
-        </div>
-
-        <div class="product-card card">
-          <div class="product-head">
-            <div class="p-title">Galvanized Nails (1kg)</div>
-            <div class="p-badge">HDW-011</div>
-          </div>
-          <div class="p-meta">Stock: <strong>120</strong></div>
-          <div class="p-price">₹180</div>
-        </div>
-
-        <div class="product-card card">
-          <div class="product-head">
-            <div class="p-title">Iron Rod 10mm</div>
-            <div class="p-badge">IRN-210</div>
-          </div>
-          <div class="p-meta">Stock: <strong>42</strong></div>
-          <div class="p-price">₹450</div>
-        </div>
-      </div>
-    </section>
-
+    <!-- CTA Spotlight -->
     <section class="cta-spotlight card">
       <div class="cta-content">
         <h3>Ready to Upgrade Your Supply Chain?</h3>
-        <p>Get instant access to real-time inventory, advanced analytics, and paint shade management — all in one powerful system.</p>
-        <a class="cta primary large" href="#contact">Get Started Now</a>
+        <p>Get instant access to real-time inventory, advanced analytics, and paint shade management — all in one powerful dashboard.</p>
+        <a class="cta primary large" href="customer.html"><i class="fa-solid fa-shop"></i> Start Shopping</a>
       </div>
       <div class="cta-visual">
-        <svg width="300" height="240" viewBox="0 0 300 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="150" cy="120" r="100" fill="#2b6cb0" opacity="0.1"/>
-          <circle cx="150" cy="120" r="80" fill="#2b6cb0" opacity="0.06"/>
-          <path d="M100 120L150 70L200 120M150 70V170" stroke="#2b6cb0" stroke-width="3" opacity="0.6"/>
+        <svg width="240" height="180" viewBox="0 0 300 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="120" r="100" fill="var(--primary)" opacity="0.1"/>
+          <circle cx="150" cy="120" r="80" fill="var(--primary)" opacity="0.06"/>
+          <path d="M100 120L150 70L200 120M150 70V170" stroke="var(--primary)" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
         </svg>
       </div>
     </section>
 
+    <!-- Reports Snapshot -->
     <section id="reports" class="reports card">
-      <h3>Reporting Snapshot</h3>
+      <h3><i class="fa-solid fa-chart-pie"></i> Reporting Snapshot</h3>
       <div class="report-grid">
-        <div class="report">Top-selling products — <strong>Emulsion Paint</strong></div>
-        <div class="report">Monthly revenue — <strong>$12,450</strong></div>
-        <div class="report">Low-stock alerts — <strong>3 items</strong></div>
+        <div class="report">
+          <i class="fa-solid fa-trophy" style="color: #eab308; font-size: 18px;"></i>
+          <div>Top Product: <strong>Emulsion Paint</strong></div>
+        </div>
+        <div class="report">
+          <i class="fa-solid fa-sack-dollar" style="color: #22c55e; font-size: 18px;"></i>
+          <div>Monthly Revenue: <strong>₹12,450</strong></div>
+        </div>
+        <div class="report">
+          <i class="fa-solid fa-bell" style="color: #ef4444; font-size: 18px;"></i>
+          <div>Low Stock Alerts: <strong>3 items</strong></div>
+        </div>
       </div>
-    </section>
-
-    <section id="contact" class="contact">
-      <h3>Contact & Next Steps</h3>
-      <p>Want this wired to your database and dashboards? I can scaffold the schema, stored procedures, and a small demo API.</p>
+      <div class="action-section" style="margin-top:24px; border-radius: var(--radius-md);">
+        <a href="reports.html" class="cta ghost"><i class="fa-solid fa-chart-line"></i> View Full Analytics Dashboard →</a>
+      </div>
     </section>
   </main>
 
   <footer class="site-footer">
     <div class="container footer-row card">
-      <div>© <span id="year"></span> Smart Hardware & Paint</div>
-      <div class="footer-links">Built for inventory-first operations</div>
+      <div>© <span id="year"></span> BANGLADESH PAINTS & HARDWARE</div>
+      <div class="footer-links"><i class="fa-solid fa-database"></i> Database-driven inventory operations</div>
     </div>
   </footer>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+    
     document.querySelectorAll('.swatch').forEach(s => {
       s.addEventListener('mouseenter', () => {
-        document.body.style.setProperty('--accent', s.dataset.color);
-        s.style.transform = 'scale(1.08)';
+        document.documentElement.style.setProperty('--primary', s.dataset.color);
+        s.style.transform = 'scale(1.15) translateY(-4px)';
       });
       s.addEventListener('mouseleave', () => {
-        document.body.style.setProperty('--accent', '#2b6cb0');
+        document.documentElement.style.setProperty('--primary', '#4f46e5');
         s.style.transform = '';
       });
-      s.addEventListener('click', () => {
-        popSparkle(s);
-      });
+      s.addEventListener('click', () => popSparkle(s));
     });
 
-    // create a sparkle at element
     function popSparkle(el){
       const rect = el.getBoundingClientRect();
       const layer = document.querySelector('.sparkle-layer');
+      if (!layer) return;
       const spark = document.createElement('span');
       spark.className = 'spark';
       const x = rect.left + rect.width/2 - layer.getBoundingClientRect().left;
@@ -231,7 +321,6 @@
       setTimeout(()=> spark.remove(), 900);
     }
 
-    // gentle random sparkles over hero
     (function randomSparkles(){
       const layer = document.querySelector('.sparkle-layer');
       if(!layer) return;
@@ -241,8 +330,8 @@
         s.style.left = Math.random()*layer.clientWidth + 'px';
         s.style.top = Math.random()*layer.clientHeight + 'px';
         layer.appendChild(s);
-        setTimeout(()=> s.remove(), 1800);
-      }, 700);
+        setTimeout(()=> s.remove(), 1500);
+      }, 900);
     })();
   </script>
 </body>

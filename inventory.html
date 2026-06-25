@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Inventory Control — BANGLADESH PAINTS & HARDWARE</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-row">
+      <div class="brand">
+        <div class="logo"><i class="fa-solid fa-layer-group"></i></div>
+        <div>
+          <h1>BANGLADESH PAINTS & HARDWARE</h1>
+          <p class="tagline">Database-focused supply management for stores & contractors</p>
+        </div>
+      </div>
+      <nav class="top-nav">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="customer.html"><i class="fa-solid fa-shop"></i> Customer Store</a>
+        <a href="products.html"><i class="fa-solid fa-boxes-stacked"></i> Products</a>
+        <a href="paint-shades.html"><i class="fa-solid fa-palette"></i> Paint Shades</a>
+        <a href="inventory.html" class="active"><i class="fa-solid fa-warehouse"></i> Inventory</a>
+        <a href="reports.html"><i class="fa-solid fa-chart-line"></i> Reports</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-hero card">
+      <h2><i class="fa-solid fa-warehouse" style="color: var(--primary);"></i> Inventory Control Center</h2>
+      <p>Real-time stock monitoring, movement history, and automatic low-stock alerts</p>
+    </section>
+
+    <!-- Metric Cards -->
+    <section class="metrics-grid">
+      <div class="metric-card healthy"><div class="metric-icon"><i class="fa-solid fa-cubes"></i></div><div><div class="metric-value">569</div><div class="metric-label">Total Units</div></div></div>
+      <div class="metric-card caution"><div class="metric-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div><div class="metric-value">3</div><div class="metric-label">Low Stock Items</div></div></div>
+      <div class="metric-card danger"><div class="metric-icon"><i class="fa-solid fa-circle-xmark"></i></div><div><div class="metric-value">1</div><div class="metric-label">Out of Stock</div></div></div>
+      <div class="metric-card healthy"><div class="metric-icon"><i class="fa-solid fa-arrows-rotate"></i></div><div><div class="metric-value">42</div><div class="metric-label">Movements Today</div></div></div>
+    </section>
+
+    <!-- Stock Status Overview -->
+    <section class="products-table card">
+      <h3 style="font-family:var(--font-heading);margin-bottom:16px;"><i class="fa-solid fa-list-check" style="color:var(--primary);"></i> Live Stock Status</h3>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th><i class="fa-solid fa-tag"></i> Product</th>
+              <th><i class="fa-solid fa-barcode"></i> SKU</th>
+              <th><i class="fa-solid fa-cubes"></i> Current Stock</th>
+              <th><i class="fa-solid fa-shield-halved"></i> Safety Level</th>
+              <th><i class="fa-solid fa-bars-progress"></i> Fill</th>
+              <th><i class="fa-solid fa-circle-info"></i> Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Premium Emulsion Paint</strong></td><td>PNT-001</td><td>24</td><td>10</td><td><div class="stock-bar"><div class="stock-fill high" style="width:80%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
+            <tr><td><strong>Weathercoat Shield</strong></td><td>PNT-002</td><td>15</td><td>8</td><td><div class="stock-bar"><div class="stock-fill high" style="width:62%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
+            <tr><td><strong>Gloss Wood Polish</strong></td><td>PNT-045</td><td>8</td><td>10</td><td><div class="stock-bar"><div class="stock-fill medium" style="width:30%;"></div></div></td><td><span class="badge low-stock"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock</span></td></tr>
+            <tr><td><strong>Galvanized Nails</strong></td><td>HDW-011</td><td>120</td><td>25</td><td><div class="stock-bar"><div class="stock-fill high" style="width:96%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
+            <tr><td><strong>Premium Screws Pack</strong></td><td>HDW-012</td><td>250</td><td>50</td><td><div class="stock-bar"><div class="stock-fill high" style="width:100%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
+            <tr><td><strong>Drill Bit Set</strong></td><td>HDW-089</td><td>15</td><td>8</td><td><div class="stock-bar"><div class="stock-fill high" style="width:62%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
+            <tr><td><strong>Heavy Duty Hammer</strong></td><td>TL-001</td><td>35</td><td>10</td><td><div class="stock-bar"><div class="stock-fill high" style="width:78%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
+            <tr><td><strong>BSRM Iron Rod 10mm</strong></td><td>IRN-210</td><td>42</td><td>20</td><td><div class="stock-bar"><div class="stock-fill high" style="width:68%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
+            <tr><td><strong>Steel Plate 4×8 ft</strong></td><td>IRN-211</td><td>10</td><td>10</td><td><div class="stock-bar"><div class="stock-fill medium" style="width:33%;"></div></div></td><td><span class="badge low-stock"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock</span></td></tr>
+            <tr><td><strong>Ready Mix Concrete</strong></td><td>CST-001</td><td>50</td><td>15</td><td><div class="stock-bar"><div class="stock-fill high" style="width:83%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
+            <tr><td><strong>Lafarge Cement</strong></td><td>CST-002</td><td>0</td><td>15</td><td><div class="stock-bar"><div class="stock-fill critical" style="width:0%;"></div></div></td><td><span class="badge out-stock"><i class="fa-solid fa-circle-xmark"></i> Out of Stock</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Movement Logs -->
+    <section class="products-table card">
+      <h3 style="font-family:var(--font-heading);margin-bottom:16px;"><i class="fa-solid fa-clock-rotate-left" style="color:var(--primary);"></i> Recent Stock Movements (FIFO)</h3>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th><i class="fa-solid fa-calendar"></i> Date</th>
+              <th><i class="fa-solid fa-tag"></i> Product</th>
+              <th><i class="fa-solid fa-right-left"></i> Type</th>
+              <th><i class="fa-solid fa-cubes"></i> Qty</th>
+              <th><i class="fa-solid fa-comment"></i> Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>2025-06-24</td><td><strong>Premium Emulsion Paint</strong></td><td><span class="badge in-stock">IN</span></td><td>+30</td><td>Supplier restocking order #RS-221</td></tr>
+            <tr><td>2025-06-24</td><td><strong>Premium Emulsion Paint</strong></td><td><span class="badge out-stock">OUT</span></td><td>-6</td><td>Customer order #ORD-1024</td></tr>
+            <tr><td>2025-06-23</td><td><strong>Galvanized Nails</strong></td><td><span class="badge in-stock">IN</span></td><td>+50</td><td>Wholesale shipment</td></tr>
+            <tr><td>2025-06-23</td><td><strong>BSRM Iron Rod</strong></td><td><span class="badge out-stock">OUT</span></td><td>-8</td><td>Contractor order #CON-0055</td></tr>
+            <tr><td>2025-06-22</td><td><strong>Drill Bit Set</strong></td><td><span class="badge in-stock">IN</span></td><td>+20</td><td>New inventory arrival</td></tr>
+            <tr><td>2025-06-22</td><td><strong>Gloss Wood Polish</strong></td><td><span class="badge out-stock">OUT</span></td><td>-12</td><td>Customer order #ORD-1019</td></tr>
+            <tr><td>2025-06-21</td><td><strong>Steel Plate 4×8 ft</strong></td><td><span class="badge out-stock">OUT</span></td><td>-5</td><td>Construction project delivery</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card action-section">
+      <a href="index.html" class="cta ghost"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row card">
+      <div>© <span id="year"></span> BANGLADESH PAINTS & HARDWARE</div>
+      <div class="footer-links"><i class="fa-solid fa-warehouse"></i> Inventory management center</div>
+    </div>
+  </footer>
+  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+</body>
+</html>
