@@ -37,10 +37,10 @@
 
     <!-- Metric Cards -->
     <section class="metrics-grid">
-      <div class="metric-card healthy"><div class="metric-icon"><i class="fa-solid fa-cubes"></i></div><div><div class="metric-value">569</div><div class="metric-label">Total Units</div></div></div>
-      <div class="metric-card caution"><div class="metric-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div><div class="metric-value">3</div><div class="metric-label">Low Stock Items</div></div></div>
-      <div class="metric-card danger"><div class="metric-icon"><i class="fa-solid fa-circle-xmark"></i></div><div><div class="metric-value">1</div><div class="metric-label">Out of Stock</div></div></div>
-      <div class="metric-card healthy"><div class="metric-icon"><i class="fa-solid fa-arrows-rotate"></i></div><div><div class="metric-value">42</div><div class="metric-label">Movements Today</div></div></div>
+      <div class="metric-card healthy"><div class="metric-icon"><i class="fa-solid fa-cubes"></i></div><div><div class="metric-value" id="metric-total-units">0</div><div class="metric-label">Total Units</div></div></div>
+      <div class="metric-card caution"><div class="metric-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div><div class="metric-value" id="metric-low-stock">0</div><div class="metric-label">Low Stock Items</div></div></div>
+      <div class="metric-card danger"><div class="metric-icon"><i class="fa-solid fa-circle-xmark"></i></div><div><div class="metric-value" id="metric-out-stock">0</div><div class="metric-label">Out of Stock</div></div></div>
+      <div class="metric-card healthy"><div class="metric-icon"><i class="fa-solid fa-arrows-rotate"></i></div><div><div class="metric-value" id="metric-movements">0</div><div class="metric-label">Movements Today</div></div></div>
     </section>
 
     <!-- Stock Status Overview -->
@@ -58,18 +58,8 @@
               <th><i class="fa-solid fa-circle-info"></i> Status</th>
             </tr>
           </thead>
-          <tbody>
-            <tr><td><strong>Premium Emulsion Paint</strong></td><td>PNT-001</td><td>24</td><td>10</td><td><div class="stock-bar"><div class="stock-fill high" style="width:80%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
-            <tr><td><strong>Weathercoat Shield</strong></td><td>PNT-002</td><td>15</td><td>8</td><td><div class="stock-bar"><div class="stock-fill high" style="width:62%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
-            <tr><td><strong>Gloss Wood Polish</strong></td><td>PNT-045</td><td>8</td><td>10</td><td><div class="stock-bar"><div class="stock-fill medium" style="width:30%;"></div></div></td><td><span class="badge low-stock"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock</span></td></tr>
-            <tr><td><strong>Galvanized Nails</strong></td><td>HDW-011</td><td>120</td><td>25</td><td><div class="stock-bar"><div class="stock-fill high" style="width:96%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
-            <tr><td><strong>Premium Screws Pack</strong></td><td>HDW-012</td><td>250</td><td>50</td><td><div class="stock-bar"><div class="stock-fill high" style="width:100%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
-            <tr><td><strong>Drill Bit Set</strong></td><td>HDW-089</td><td>15</td><td>8</td><td><div class="stock-bar"><div class="stock-fill high" style="width:62%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
-            <tr><td><strong>Heavy Duty Hammer</strong></td><td>TL-001</td><td>35</td><td>10</td><td><div class="stock-bar"><div class="stock-fill high" style="width:78%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
-            <tr><td><strong>BSRM Iron Rod 10mm</strong></td><td>IRN-210</td><td>42</td><td>20</td><td><div class="stock-bar"><div class="stock-fill high" style="width:68%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
-            <tr><td><strong>Steel Plate 4×8 ft</strong></td><td>IRN-211</td><td>10</td><td>10</td><td><div class="stock-bar"><div class="stock-fill medium" style="width:33%;"></div></div></td><td><span class="badge low-stock"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock</span></td></tr>
-            <tr><td><strong>Ready Mix Concrete</strong></td><td>CST-001</td><td>50</td><td>15</td><td><div class="stock-bar"><div class="stock-fill high" style="width:83%;"></div></div></td><td><span class="badge in-stock">In Stock</span></td></tr>
-            <tr><td><strong>Lafarge Cement</strong></td><td>CST-002</td><td>0</td><td>15</td><td><div class="stock-bar"><div class="stock-fill critical" style="width:0%;"></div></div></td><td><span class="badge out-stock"><i class="fa-solid fa-circle-xmark"></i> Out of Stock</span></td></tr>
+          <tbody id="stockBody">
+            <!-- Populated dynamically via PHP API -->
           </tbody>
         </table>
       </div>
@@ -89,14 +79,8 @@
               <th><i class="fa-solid fa-comment"></i> Notes</th>
             </tr>
           </thead>
-          <tbody>
-            <tr><td>2025-06-24</td><td><strong>Premium Emulsion Paint</strong></td><td><span class="badge in-stock">IN</span></td><td>+30</td><td>Supplier restocking order #RS-221</td></tr>
-            <tr><td>2025-06-24</td><td><strong>Premium Emulsion Paint</strong></td><td><span class="badge out-stock">OUT</span></td><td>-6</td><td>Customer order #ORD-1024</td></tr>
-            <tr><td>2025-06-23</td><td><strong>Galvanized Nails</strong></td><td><span class="badge in-stock">IN</span></td><td>+50</td><td>Wholesale shipment</td></tr>
-            <tr><td>2025-06-23</td><td><strong>BSRM Iron Rod</strong></td><td><span class="badge out-stock">OUT</span></td><td>-8</td><td>Contractor order #CON-0055</td></tr>
-            <tr><td>2025-06-22</td><td><strong>Drill Bit Set</strong></td><td><span class="badge in-stock">IN</span></td><td>+20</td><td>New inventory arrival</td></tr>
-            <tr><td>2025-06-22</td><td><strong>Gloss Wood Polish</strong></td><td><span class="badge out-stock">OUT</span></td><td>-12</td><td>Customer order #ORD-1019</td></tr>
-            <tr><td>2025-06-21</td><td><strong>Steel Plate 4×8 ft</strong></td><td><span class="badge out-stock">OUT</span></td><td>-5</td><td>Construction project delivery</td></tr>
+          <tbody id="logsBody">
+            <!-- Populated dynamically via PHP API -->
           </tbody>
         </table>
       </div>
@@ -113,6 +97,89 @@
       <div class="footer-links"><i class="fa-solid fa-warehouse"></i> Inventory management center</div>
     </div>
   </footer>
-  <script>document.getElementById('year').textContent=new Date().getFullYear();</script>
+  <script>
+    document.getElementById('year').textContent=new Date().getFullYear();
+    
+    async function initInventory() {
+      try {
+        // Load stock status
+        const stockRes = await fetch('api/inventory.php');
+        const stockData = await stockRes.json();
+        
+        let totalUnits = 0;
+        let lowStockCount = 0;
+        let outStockCount = 0;
+        
+        const sBody = document.getElementById('stockBody');
+        sBody.innerHTML = '';
+        
+        stockData.forEach(p => {
+          totalUnits += parseInt(p.stock) || 0;
+          
+          let fillPct = 100;
+          if (p.safety_level > 0 && p.stock < (p.safety_level * 2)) {
+            fillPct = Math.max(0, Math.min(100, Math.round((p.stock / (p.safety_level * 2)) * 100)));
+          }
+          if (p.stock == 0) fillPct = 0;
+          
+          let fillClass = 'high';
+          let badge = '<span class="badge in-stock">In Stock</span>';
+          
+          if (p.stock == 0) {
+            fillClass = 'critical';
+            badge = '<span class="badge out-stock"><i class="fa-solid fa-circle-xmark"></i> Out of Stock</span>';
+            outStockCount++;
+          } else if (p.stock <= p.safety_level) {
+            fillClass = 'medium';
+            badge = '<span class="badge low-stock"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock</span>';
+            lowStockCount++;
+          }
+          
+          sBody.innerHTML += `<tr>
+            <td><strong>${p.product_name}</strong></td>
+            <td>${p.sku}</td>
+            <td>${p.stock}</td>
+            <td>${p.safety_level}</td>
+            <td><div class="stock-bar"><div class="stock-fill ${fillClass}" style="width:${fillPct}%;"></div></div></td>
+            <td>${badge}</td>
+          </tr>`;
+        });
+        
+        // Update metric cards
+        document.getElementById('metric-total-units').textContent = totalUnits;
+        document.getElementById('metric-low-stock').textContent = lowStockCount;
+        document.getElementById('metric-out-stock').textContent = outStockCount;
+
+        // Load logs
+        const logRes = await fetch('api/inventory.php?logs=1');
+        const logData = await logRes.json();
+        
+        const lBody = document.getElementById('logsBody');
+        lBody.innerHTML = '';
+        
+        document.getElementById('metric-movements').textContent = logData.length;
+        
+        logData.forEach(l => {
+          const mDate = l.movement_date ? l.movement_date.split(' ')[0] : '-';
+          const typeBadge = l.movement_type === 'IN' 
+            ? '<span class="badge in-stock">IN</span>' 
+            : '<span class="badge out-stock">OUT</span>';
+          const qtyFormat = l.movement_type === 'IN' ? `+${l.quantity}` : `-${l.quantity}`;
+          
+          lBody.innerHTML += `<tr>
+            <td>${mDate}</td>
+            <td><strong>${l.product_name}</strong></td>
+            <td>${typeBadge}</td>
+            <td>${qtyFormat}</td>
+            <td>${l.notes || ''}</td>
+          </tr>`;
+        });
+        
+      } catch (err) {
+        console.error('Error fetching inventory:', err);
+      }
+    }
+    initInventory();
+  </script>
 </body>
 </html>

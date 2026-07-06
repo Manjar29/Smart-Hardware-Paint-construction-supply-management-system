@@ -231,28 +231,45 @@
     }, 100);
     
     const form = document.getElementById('adminLoginForm');
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
       const u = document.getElementById('adminUsername').value;
       const p = document.getElementById('adminPassword').value;
       
-      if (u === 'admin' && p === 'admin123') {
-        sessionStorage.setItem('adminLoggedIn', 'true');
-        overlay.remove();
-        document.documentElement.classList.remove('admin-unauthorized');
+      try {
+        const res = await fetch('api/auth.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: u, password: p })
+        });
         
-        const authStyle = document.getElementById('auth-style');
-        if (authStyle && isAdminPage) {
-          authStyle.remove();
-        }
+        const data = await res.json();
         
-        if (isAdminPage) {
-          addLogoutButton();
-          window.location.reload();
+        if (res.ok && data.success) {
+          sessionStorage.setItem('adminLoggedIn', 'true');
+          overlay.remove();
+          document.documentElement.classList.remove('admin-unauthorized');
+          
+          const authStyle = document.getElementById('auth-style');
+          if (authStyle && isAdminPage) {
+            authStyle.remove();
+          }
+          
+          if (isAdminPage) {
+            addLogoutButton();
+            window.location.reload();
+          } else {
+            window.location.href = targetUrl || 'products.html';
+          }
         } else {
-          window.location.href = targetUrl || 'products.html';
+          showError();
         }
-      } else {
+      } catch (err) {
+        showError();
+        console.error('Auth error:', err);
+      }
+      
+      function showError() {
         card.classList.add('shake');
         setTimeout(() => card.classList.remove('shake'), 400);
         

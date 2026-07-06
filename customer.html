@@ -136,69 +136,29 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ======= INLINE DATA (No external .js) =======
-    const products = [
-      { id:"PNT-001", name:"Premium Emulsion Paint (1L)", category:"Paints", brand:"Berger", price:1250, stock:24 },
-      { id:"PNT-002", name:"Weathercoat Shield (4L)", category:"Paints", brand:"Berger", price:3400, stock:15 },
-      { id:"PNT-045", name:"Gloss Wood Polish (500ml)", category:"Paints", brand:"Asian Paints", price:320, stock:8 },
-      { id:"HDW-011", name:"Galvanized Nails (1kg)", category:"Hardware", brand:"RFL", price:180, stock:120 },
-      { id:"HDW-012", name:"Premium Screws Pack (100pc)", category:"Hardware", brand:"RFL", price:120, stock:250 },
-      { id:"HDW-089", name:"Drill Bit Set (13pcs)", category:"Tools", brand:"Bosch", price:280, stock:15 },
-      { id:"TL-001", name:"Heavy Duty Steel Hammer", category:"Tools", brand:"Bosch", price:350, stock:35 },
-      { id:"IRN-210", name:"BSRM Iron Rod 10mm (6m)", category:"Iron & Steel", brand:"BSRM", price:450, stock:42 },
-      { id:"IRN-211", name:"Steel Plate 4x8 ft", category:"Iron & Steel", brand:"BSRM", price:2800, stock:10 },
-      { id:"CST-001", name:"Ready Mix Concrete (25kg)", category:"Construction", brand:"Lafarge", price:850, stock:50 },
-      { id:"CST-002", name:"Lafarge Cement (50kg)", category:"Construction", brand:"Lafarge", price:650, stock:0 }
-    ];
-
-    // Generate 105 shades inline
-    function buildShades(){
-      const adj=["Royal","Cyber","Rustic","Emerald","Arctic","Sunset","Tuscan","Ocean","Desert","Forest","Rose","Sandalwood","Midnight","Polar","Electric","Velvet","Vintage","Solar","Pacific","Mountain","Breeze","Autumn","Spring","Lagoon","Glacier","Cosmic","Sahara","Jungle","Safari","Nebula"];
-      const tone=["Mist","Blaze","Dust","Shadow","Glow","Frost","Shield","Breeze","Haze","Beam","Pulse","Storm","Drift","Aura","Peak","Dawn","Twilight","Wave","Shell","Petal"];
-      const cats=["Synthetic","Acrylic","Coat"];
-      const base=[
-        {id:"SH-001",name:"Crimson Blaze",code:"CB-001",category:"Acrylic",rgb:"rgb(244,63,94)",mix:"Red 40%+Yellow 15%+White 45%",finish:"Matte"},
-        {id:"SH-002",name:"Sunset Gold",code:"SG-002",category:"Acrylic",rgb:"rgb(245,158,11)",mix:"Yellow 60%+Red 15%+White 25%",finish:"Semi-Gloss"},
-        {id:"SH-003",name:"Mint Leaf",code:"ML-003",category:"Acrylic",rgb:"rgb(16,185,129)",mix:"Green 50%+Yellow 20%+White 30%",finish:"Satin"},
-        {id:"SH-004",name:"Ocean Deep",code:"OD-004",category:"Acrylic",rgb:"rgb(59,130,246)",mix:"Blue 70%+Black 15%+White 15%",finish:"Glossy"}
-      ];
-      let id=5;
-      for(let i=0;i<91;i++){
-        const c=cats[i%3];
-        const a=adj[(i*3)%adj.length], t=tone[(i*7)%tone.length];
-        let r=50+((i*17)%180),g=50+((i*31)%180),b=50+((i*47)%180);
-        if(a==="Forest"||a==="Emerald"){r=20;g=140+(i%60);b=60;}
-        if(a==="Sunset"||a==="Solar"){r=180+(i%70);g=80+(i%80);b=20;}
-        if(a==="Ocean"||a==="Midnight"){r=10;g=80+(i%60);b=180+(i%70);}
-        if(a==="Arctic"||a==="Polar"){r=200+(i%50);g=220+(i%30);b=240;}
-        let f=c==="Synthetic"?"High Gloss":c==="Coat"?"Protective Coat":(i%2===0?"Satin":"Eggshell");
-        base.push({id:"SH-"+String(id).padStart(3,"0"),name:a+" "+t,code:a.substring(0,2).toUpperCase()+"-"+(100+id),category:c,rgb:`rgb(${r},${g},${b})`,mix:c+" Base 70%+Pigment 20%+Binder 10%",finish:f});
-        id++;
-      }
-      // 10 Steel shades
-      const steel=[
-        {id:"SH-091",name:"Industrial Steel",code:"IS-901",category:"Steel",rgb:"rgb(112,128,144)",mix:"Silver 75%+Black 15%+Blue 10%",finish:"Metallic"},
-        {id:"SH-092",name:"Galvanized Gray",code:"GG-902",category:"Steel",rgb:"rgb(142,145,143)",mix:"Zinc 80%+Black 12%+Yellow 8%",finish:"Matte Metallic"},
-        {id:"SH-093",name:"Brushed Chrome",code:"BC-903",category:"Steel",rgb:"rgb(192,192,192)",mix:"Silver 85%+White 10%+Black 5%",finish:"Satin Metallic"},
-        {id:"SH-094",name:"Gunmetal Blue",code:"GB-904",category:"Steel",rgb:"rgb(69,85,96)",mix:"Blue 60%+Black 30%+White 10%",finish:"Glossy Metallic"},
-        {id:"SH-095",name:"Rusty Iron",code:"RI-905",category:"Steel",rgb:"rgb(183,115,87)",mix:"Red Oxide 50%+Brown 30%+Yellow 20%",finish:"Textured"},
-        {id:"SH-096",name:"Copper Glow",code:"CG-906",category:"Steel",rgb:"rgb(184,115,51)",mix:"Gold 65%+Red 25%+Yellow 10%",finish:"Semi-Gloss Metallic"},
-        {id:"SH-097",name:"Antique Bronze",code:"AB-907",category:"Steel",rgb:"rgb(102,93,76)",mix:"Yellow 45%+Brown 35%+Black 20%",finish:"Matte Bronze"},
-        {id:"SH-098",name:"Titanium Silver",code:"TS-908",category:"Steel",rgb:"rgb(168,175,175)",mix:"Silver 90%+White 5%+Black 5%",finish:"High Gloss"},
-        {id:"SH-099",name:"Carbon Black Metallic",code:"CB-909",category:"Steel",rgb:"rgb(43,44,46)",mix:"Black 85%+Silver 15%",finish:"Satin Metallic"},
-        {id:"SH-100",name:"Stainless Steel",code:"SS-910",category:"Steel",rgb:"rgb(219,222,224)",mix:"Silver 80%+Blue 10%+White 10%",finish:"High Gloss Metallic"}
-      ];
-      return base.concat(steel);
-    }
-
-    const allShades = buildShades();
+    let products = [];
+    let allShades = [];
     let selectedShade = null;
     let cart = [];
 
     // Init
-    renderCatalog();
-    loadShadeList();
-    loadPaintProducts();
+    async function init() {
+      try {
+        const prodRes = await fetch('api/products.php');
+        if (prodRes.ok) products = await prodRes.json();
+        
+        const shadeRes = await fetch('api/shades.php');
+        if (shadeRes.ok) allShades = await shadeRes.json();
+        
+        renderCatalog();
+        loadShadeList();
+        loadPaintProducts();
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      }
+    }
+    
+    init();
 
     function switchTab(tab){
       document.getElementById('tab-catalog').classList.toggle('active',tab==='catalog');
@@ -309,24 +269,45 @@
       document.getElementById('cartCount').textContent=count;
     }
 
-    function checkout(){
+    async function checkout(){
       if(cart.length===0){alert('Cart is empty.');return;}
       const n=document.getElementById('billName').value.trim();
       const ph=document.getElementById('billPhone').value.trim();
       const ad=document.getElementById('billAddress').value.trim();
       if(!n||!ph||!ad){alert('Fill in all customer details.');return;}
-      // Deduct stock
-      let total=0;
-      for(const item of cart){
-        const p=products.find(x=>x.id===item.id);
-        if(!p||p.stock<item.qty){alert('Insufficient stock for '+item.name);return;}
-        p.stock-=item.qty;
-        total+=item.price*item.qty;
+      
+      const payload = {
+        customer: { name: n, phone: ph, address: ad },
+        items: cart
+      };
+      
+      try {
+        const res = await fetch('api/orders.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (res.ok && data.success) {
+          let total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+          document.getElementById('successMsg').innerHTML='Order ID: <strong>'+data.order_id+'</strong><br>Total: <strong>₹'+total.toLocaleString()+'</strong><br>Customer: <strong>'+n+'</strong> ('+ph+')';
+          document.getElementById('successModal').style.display='flex';
+          cart=[]; renderCart();
+          document.getElementById('billName').value='';document.getElementById('billPhone').value='';document.getElementById('billAddress').value='';
+          
+          // Refresh products
+          const prodRes = await fetch('api/products.php');
+          if (prodRes.ok) products = await prodRes.json();
+          renderCatalog();
+        } else {
+          alert('Error placing order: ' + (data.error || 'Unknown error'));
+        }
+      } catch (e) {
+        alert('Network error while placing order.');
+        console.error(e);
       }
-      document.getElementById('successMsg').innerHTML='Total: <strong>₹'+total.toLocaleString()+'</strong><br>Customer: <strong>'+n+'</strong> ('+ph+')';
-      document.getElementById('successModal').style.display='flex';
-      cart=[];renderCart();renderCatalog();
-      document.getElementById('billName').value='';document.getElementById('billPhone').value='';document.getElementById('billAddress').value='';
     }
   </script>
 </body>
