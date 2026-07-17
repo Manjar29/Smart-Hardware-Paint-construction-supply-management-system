@@ -1,13 +1,39 @@
 <?php
 // ============================================================
+//  OUTPUT BUFFERING — Must be FIRST to prevent any stray output
+//  from corrupting the JSON response
+// ============================================================
+ob_start();
+
+// Suppress PHP error display — all errors go to JSON, not HTML
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+error_reporting(E_ALL);
+
+// Global exception handler — catches any uncaught exception
+set_exception_handler(function(Throwable $e) {
+    ob_end_clean(); // discard any buffered stray output
+    http_response_code(500);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['error' => 'Server error: ' . $e->getMessage()], JSON_UNESCAPED_UNICODE);
+    exit;
+});
+
+// Convert PHP errors into exceptions so they are caught above
+set_error_handler(function(int $errno, string $errstr, string $errfile, int $errline): bool {
+    if (!(error_reporting() & $errno)) return false;
+    throw new ErrorException($errstr, $errno, $errno, $errfile, $errline);
+});
+
+// ============================================================
 //  DATABASE CONFIGURATION — MySQL / XAMPP
 //  Edit these credentials to match your XAMPP setup
 // ============================================================
-define('DB_HOST', 'localhost');
-define('DB_PORT', '3306');
-define('DB_NAME', 'paint_hardware_db');
-define('DB_USER', 'root');       // Default XAMPP MySQL user
-define('DB_PASS', '');           // Default XAMPP MySQL password (empty)
+define('DB_HOST',    'localhost');
+define('DB_PORT',    '3306');
+define('DB_NAME',    'paint_hardware_db');
+define('DB_USER',    'root');   // Default XAMPP MySQL user
+define('DB_PASS',    '');       // Default XAMPP MySQL password (empty)
 define('DB_CHARSET', 'utf8mb4');
 
 // ============================================================
@@ -33,7 +59,17 @@ function getDbConnection(): PDO {
     try {
         $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
     } catch (PDOException $e) {
-        sendError('Database connection failed: ' . $e->getMessage(), 500);
+        $msg = $e->getMessage();
+        // Give a helpful message if the database does not exist
+        if (strpos($msg, 'Unknown database') !== false) {
+            sendError(
+                'Database "' . DB_NAME . '" not found. ' .
+                'Please import database_mysql.sql into phpMyAdmin first: ' .
+                'http://localhost/phpmyadmin -> Import -> select database_mysql.sql',
+                503
+            );
+        }
+        sendError('Database connection failed: ' . $msg, 500);
     }
 
     return $pdo;
@@ -119,19 +155,15 @@ function adaptSql(string $sql): string {
     $sql = preg_replace('/\bFETCH\s+FIRST\s+(\d+)\s+ROWS\s+ONLY\b/i', 'LIMIT $1', $sql);
 
     // Oracle || concat in LIKE:  '%' || :var || '%'  ->  CONCAT('%', :var, '%')
-    // MySQL supports CONCAT for LIKE patterns
     $sql = preg_replace(
         "/'%'\s*\|\|\s*:(\w+)\s*\|\|\s*'%'/",
         "CONCAT('%', :$1, '%')",
         $sql
     );
 
-    // Generic Oracle string concatenation: 'a' || 'b'  -> CONCAT('a', 'b')
-    // Only replace when not inside a LIKE clause already handled above
-    // (Simple heuristic: replace remaining ||)
+    // Generic Oracle string concatenation: 'a' || 'b'  ->  , (MySQL uses CONCAT but
+    // in this project || only appears in the LIKE pattern handled above, so this is safe)
     $sql = str_replace(' || ', ', ', $sql);
-    // But fix comma-separated bare CONCAT patterns back if needed
-    // Actually for this project || is only used in CONCAT patterns, so this is safe.
 
     // SYSDATE -> NOW()
     $sql = preg_replace('/\bSYSDATE\b/i', 'NOW()', $sql);
@@ -151,12 +183,14 @@ function generateOrderNumber(int $orderId): string {
 //  RESPONSE HELPERS
 // ============================================================
 function sendJson($data): void {
+    ob_end_clean(); // discard any buffered stray output
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode($data, JSON_UNESCAPED_UNICODE);
     exit;
 }
 
 function sendError(string $message, int $code = 400): void {
+    ob_end_clean(); // discard any buffered stray output
     http_response_code($code);
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode(['error' => $message], JSON_UNESCAPED_UNICODE);
@@ -164,16 +198,13 @@ function sendError(string $message, int $code = 400): void {
 }
 
 // ============================================================
-//  CORS — allow requests from the same origin (file:// or localhost)
+//  CORS — allow requests from same origin (localhost)
 // ============================================================
-$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    ob_end_clean();
     http_response_code(204);
     exit;
 }
-
-ini_set('display_errors', 0);
-error_reporting(E_ALL);

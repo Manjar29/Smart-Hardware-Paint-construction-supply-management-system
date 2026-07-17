@@ -133,7 +133,7 @@
     <!-- Hero Section -->
     <section class="hero card" id="hero">
       <div class="hero-visual">
-        <img src="./OIP.webp" alt="Bangladesh Paints & Hardware" class="hero-image" />
+        <img src="./color_pic.png" alt="Bangladesh Paints &amp; Hardware" class="hero-image" style="object-fit:cover;border-radius:var(--radius-lg);" />
         <div class="sparkle-layer" aria-hidden="true"></div>
       </div>
       <div class="hero-decoration">
@@ -242,9 +242,7 @@
           <div class="shade-info"><strong>Copper Glow</strong><p>Steel • Semi-Gloss</p></div>
         </div>
       </div>
-      <div class="action-section" style="margin-top:24px; border-radius: var(--radius-md);">
-        <a href="paint-shades.html" class="cta ghost"><i class="fa-solid fa-palette"></i> Explore 105 Custom Paint Formulas →</a>
-      </div>
+
     </section>
 
     <!-- CTA Spotlight -->
@@ -273,7 +271,7 @@
         </div>
         <div class="report">
           <i class="fa-solid fa-sack-dollar" style="color: #22c55e; font-size: 18px;"></i>
-          <div>Monthly Revenue: <strong>₹12,450</strong></div>
+          <div>Monthly Revenue: <strong>৳12,450</strong></div>
         </div>
         <div class="report">
           <i class="fa-solid fa-bell" style="color: #ef4444; font-size: 18px;"></i>
@@ -284,7 +282,96 @@
         <a href="reports.html" class="cta ghost"><i class="fa-solid fa-chart-line"></i> View Full Analytics Dashboard →</a>
       </div>
     </section>
+
+    <!-- ── Order Tracking Widget ──────────────────────── -->
+    <section class="card" style="background:linear-gradient(135deg,rgba(79,70,229,.1),rgba(139,92,246,.08));border:2px solid rgba(79,70,229,.2);">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:240px;">
+          <h3 style="font-family:var(--font-heading);font-size:20px;margin-bottom:6px;">
+            <i class="fa-solid fa-magnifying-glass-location" style="color:#8b5cf6;"></i> Track Your Order
+          </h3>
+          <p style="color:var(--text-muted);font-size:13px;margin:0;">Enter your Order ID to check real-time delivery status.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex:1;min-width:260px;">
+          <input type="text" id="homeTrackInput" placeholder="e.g. ORD-0001"
+            style="flex:1;padding:12px 16px;border-radius:var(--radius-md);
+                   border:2px solid rgba(79,70,229,.3);background:rgba(255,255,255,.06);
+                   color:var(--text);font-size:14px;font-family:var(--font-heading);outline:none;"
+            onkeydown="if(event.key==='Enter') goTrack()" />
+          <a id="homeTrackBtn" href="customer.html#track" onclick="goTrack(event)" class="cta primary" style="white-space:nowrap;">
+            <i class="fa-solid fa-search"></i> Track
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <!-- Contact Card -->
+  <section style="margin:0 auto 40px;max-width:1100px;padding:0 16px;">
+    <div style="border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.45);border:2px solid rgba(79,70,229,.2);position:relative;min-height:280px;background:linear-gradient(135deg,#0d1117 0%,#1a1040 40%,#0d1117 100%);">
+      <!-- Background image -->
+      <img src="./card.png" alt="Contact Banner"
+           onerror="this.style.display='none'"
+           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.55;" />
+      <!-- Gradient overlay -->
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,8,30,.85) 0%,rgba(10,8,30,.5) 50%,transparent 100%);"></div>
+      <!-- Content -->
+      <div style="position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:48px;align-items:center;">
+        <!-- Left: Info -->
+        <div>
+          <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(79,70,229,.2);border:1px solid rgba(79,70,229,.4);padding:6px 14px;border-radius:999px;margin-bottom:20px;">
+            <i class="fa-solid fa-layer-group" style="color:#a5b4fc;"></i>
+            <span style="font-size:12px;color:#a5b4fc;font-weight:700;letter-spacing:.08em;">OFFICIAL STORE</span>
+          </div>
+          <h3 style="font-family:var(--font-heading);font-size:28px;font-weight:900;color:#fff;margin-bottom:10px;line-height:1.2;">
+            Bangladesh Paints<br>&amp; Hardware
+          </h3>
+          <p style="color:rgba(255,255,255,.65);font-size:14px;line-height:1.7;margin-bottom:24px;max-width:340px;">
+            Your trusted supplier for paints, hardware, iron &amp; steel, tools, and construction materials. Wholesale, retail &amp; contractor pricing available.
+          </p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="customer.html" class="cta primary" style="font-size:13px;"><i class="fa-solid fa-shop"></i> Order Online</a>
+            <a href="products.html" class="cta ghost" style="font-size:13px;border-color:rgba(255,255,255,.25);color:#fff;"><i class="fa-solid fa-gears"></i> Admin Panel</a>
+          </div>
+        </div>
+        <!-- Right: Contact Details -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-lg);padding:20px;">
+            <div style="font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;font-weight:700;">Contact Information</div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <i class="fa-solid fa-phone" style="color:#fff;font-size:14px;"></i>
+                </div>
+                <div>
+                  <div style="font-size:11px;color:rgba(255,255,255,.4);">Phone</div>
+                  <div style="color:#fff;font-weight:600;font-size:14px;">+880 1700-000000</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4f46e5,#8b5cf6);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <i class="fa-solid fa-envelope" style="color:#fff;font-size:14px;"></i>
+                </div>
+                <div>
+                  <div style="font-size:11px;color:rgba(255,255,255,.4);">Email</div>
+                  <div style="color:#fff;font-weight:600;font-size:14px;">info@bdhardware.com</div>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <i class="fa-solid fa-location-dot" style="color:#fff;font-size:14px;"></i>
+                </div>
+                <div>
+                  <div style="font-size:11px;color:rgba(255,255,255,.4);">Location</div>
+                  <div style="color:#fff;font-weight:600;font-size:14px;">Dhaka, Bangladesh</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer class="site-footer">
     <div class="container footer-row card">
@@ -295,7 +382,16 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    
+
+    // Order Tracking from homepage — store in sessionStorage and redirect
+    function goTrack(e) {
+      const val = document.getElementById('homeTrackInput').value.trim().toUpperCase();
+      if (!val) { e && e.preventDefault(); alert('Enter your Order ID (e.g. ORD-0001)'); return; }
+      sessionStorage.setItem('pendingTrackId', val);
+      window.location.href = 'customer.html#track';
+    }
+
+
     document.querySelectorAll('.swatch').forEach(s => {
       s.addEventListener('mouseenter', () => {
         document.documentElement.style.setProperty('--primary', s.dataset.color);

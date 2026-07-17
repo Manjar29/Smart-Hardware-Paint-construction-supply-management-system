@@ -3,10 +3,127 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Admin Products — BANGLADESH PAINTS & HARDWARE</title>
+  <title>Admin Panel — BANGLADESH PAINTS &amp; HARDWARE</title>
+  <meta name="description" content="Admin dashboard: manage orders, search customers, monitor products and inventory." />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
   <script src="auth.js"></script>
+  <style>
+    /* ── Admin Tabs ─────────────────────────────────────── */
+    .admin-tab-bar {
+      display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px;
+      background:rgba(255,255,255,.03); padding:8px; border-radius:var(--radius-lg);
+      border:1.5px solid rgba(255,255,255,.07);
+    }
+    .admin-tab {
+      padding:11px 20px; border-radius:var(--radius-md); cursor:pointer;
+      font-family:var(--font-heading); font-weight:700; font-size:13px;
+      color:var(--text-muted); transition:all .22s; display:flex; align-items:center;
+      gap:8px; flex:1; justify-content:center; text-align:center;
+    }
+    .admin-tab.active { background:var(--primary); color:#fff; box-shadow:0 4px 16px rgba(79,70,229,.35); }
+    .admin-tab:hover:not(.active) { background:rgba(255,255,255,.06); color:var(--text); }
+
+    /* ── Search & Filter Bars ──────────────────────────── */
+    .admin-search-bar {
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:20px;
+      padding:16px 20px; background:rgba(255,255,255,.03);
+      border:1.5px solid rgba(255,255,255,.08); border-radius:var(--radius-lg);
+    }
+    .admin-search-bar input, .admin-search-bar select {
+      padding:10px 14px; border-radius:var(--radius-md); font-size:13px;
+      border:1.5px solid rgba(255,255,255,.12); background:rgba(255,255,255,.06);
+      color:var(--text); outline:none; transition:border-color .2s;
+    }
+    .admin-search-bar input:focus, .admin-search-bar select:focus {
+      border-color:var(--primary);
+    }
+    .admin-search-bar input { flex:1; min-width:200px; }
+
+    /* ── Customer History Cards ─────────────────────────── */
+    .customer-result-header {
+      background:linear-gradient(135deg,rgba(79,70,229,.12),rgba(139,92,246,.08));
+      border:1.5px solid rgba(79,70,229,.2); border-radius:var(--radius-lg);
+      padding:20px 24px; margin-bottom:16px; display:flex;
+      align-items:center; gap:16px; flex-wrap:wrap;
+    }
+    .customer-avatar {
+      width:52px; height:52px; border-radius:50%;
+      background:linear-gradient(135deg,#4f46e5,#8b5cf6);
+      display:flex; align-items:center; justify-content:center;
+      font-size:22px; color:#fff; font-weight:800; font-family:var(--font-heading);
+      flex-shrink:0;
+    }
+
+    /* ── Order Action Buttons ───────────────────────────── */
+    .action-btn {
+      padding:6px 14px; border-radius:var(--radius-md); font-size:12px;
+      font-family:var(--font-heading); font-weight:700; cursor:pointer; border:none;
+      transition:all .2s; display:inline-flex; align-items:center; gap:5px;
+    }
+    .btn-accept  { background:#10b981; color:#fff; }
+    .btn-accept:hover  { background:#059669; transform:translateY(-1px); }
+    .btn-deliver { background:#3b82f6; color:#fff; }
+    .btn-deliver:hover { background:#2563eb; transform:translateY(-1px); }
+    .btn-reject  { background:#ef4444; color:#fff; }
+    .btn-reject:hover  { background:#dc2626; transform:translateY(-1px); }
+    .btn-disabled{ background:rgba(255,255,255,.07); color:var(--text-muted); cursor:not-allowed; }
+
+    /* ── Feedback Modal ─────────────────────────────────── */
+    .modal-overlay {
+      display:none; position:fixed; inset:0; background:rgba(0,0,0,.65);
+      backdrop-filter:blur(8px); z-index:9999;
+      align-items:center; justify-content:center;
+    }
+    .modal-box {
+      background:var(--surface); border:1.5px solid rgba(239,68,68,.3);
+      border-radius:var(--radius-xl); padding:36px 32px; max-width:440px;
+      width:90%; box-shadow:0 30px 60px rgba(0,0,0,.5); animation:slideUp .3s ease;
+    }
+    @keyframes slideUp { from{transform:translateY(28px);opacity:0;} to{transform:translateY(0);opacity:1;} }
+    .modal-box textarea {
+      width:100%; margin-top:12px; padding:12px 14px; border-radius:var(--radius-md);
+      border:1.5px solid rgba(239,68,68,.3); background:rgba(239,68,68,.05);
+      color:var(--text); font-size:13px; resize:vertical; min-height:90px; box-sizing:border-box;
+    }
+
+    /* Status pills */
+    .pill-placed      { background:rgba(99,102,241,.15); color:#a5b4fc; }
+    .pill-processing  { background:rgba(16,185,129,.15); color:#6ee7b7; }
+    .pill-shipped     { background:rgba(59,130,246,.15); color:#93c5fd; }
+    .pill-delivered   { background:rgba(34,197,94,.15);  color:#86efac; }
+    .pill-cancelled   { background:rgba(239,68,68,.15);  color:#fca5a5; }
+    .status-pill {
+      display:inline-flex; align-items:center; gap:5px;
+      padding:4px 10px; border-radius:999px; font-size:11px;
+      font-weight:700; font-family:var(--font-heading); white-space:nowrap;
+    }
+
+    /* Table tweaks */
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th { background:rgba(255,255,255,.04); padding:12px 14px; text-align:left; font-size:11px;
+         text-transform:uppercase; letter-spacing:.06em; color:var(--text-muted); white-space:nowrap; }
+    td { padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.05); vertical-align:middle; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:rgba(255,255,255,.025); }
+
+    /* Empty state */
+    .empty-state {
+      text-align:center; padding:48px; color:var(--text-muted);
+    }
+    .empty-state i { font-size:42px; margin-bottom:16px; display:block; opacity:.3; }
+
+    /* Filter chip */
+    .filter-chip {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:6px 14px; border-radius:999px; font-size:12px; font-weight:600;
+      cursor:pointer; border:1.5px solid rgba(255,255,255,.12);
+      transition:all .18s; white-space:nowrap; background:rgba(255,255,255,.04);
+      color:var(--text-muted);
+    }
+    .filter-chip.active { border-color:var(--primary); background:rgba(79,70,229,.15); color:#a5b4fc; }
+    .filter-chips { display:flex; gap:8px; flex-wrap:wrap; }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -14,15 +131,14 @@
       <div class="brand">
         <div class="logo"><i class="fa-solid fa-layer-group"></i></div>
         <div>
-          <h1>BANGLADESH PAINTS & HARDWARE</h1>
-          <p class="tagline">Database-focused supply management for stores & contractors</p>
+          <h1>BANGLADESH PAINTS &amp; HARDWARE</h1>
+          <p class="tagline">Admin Control Panel</p>
         </div>
       </div>
       <nav class="top-nav">
         <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
-        <a href="customer.html"><i class="fa-solid fa-shop"></i> Customer Store</a>
-        <a href="products.html" class="active"><i class="fa-solid fa-boxes-stacked"></i> Products</a>
-        <a href="paint-shades.html"><i class="fa-solid fa-palette"></i> Paint Shades</a>
+        <a href="customer.html"><i class="fa-solid fa-shop"></i> Customer Portal</a>
+        <a href="products.html" class="active"><i class="fa-solid fa-gears"></i> Admin Panel</a>
         <a href="inventory.html"><i class="fa-solid fa-warehouse"></i> Inventory</a>
         <a href="reports.html"><i class="fa-solid fa-chart-line"></i> Reports</a>
       </nav>
@@ -31,74 +147,446 @@
 
   <main class="container">
     <section class="page-hero card">
-      <h2><i class="fa-solid fa-boxes-stacked" style="color: var(--primary);"></i> Admin — Product Catalog</h2>
-      <p>Manage product profiles, SKU codes, and stock availability across all categories</p>
-      <div class="search-filter">
-        <div style="position:relative;flex:1;display:flex;align-items:center;">
-          <i class="fa-solid fa-magnifying-glass" style="position:absolute;left:16px;color:var(--text-muted);"></i>
-          <input type="text" id="searchInput" placeholder="Search product name or SKU..." class="search-box-input" style="padding-left:44px;width:100%;" />
+      <h2><i class="fa-solid fa-shield-halved" style="color:var(--primary);"></i> Admin Dashboard</h2>
+      <p>Search customers, manage orders, accept/reject with feedback, and monitor all products.</p>
+    </section>
+
+    <!-- Admin Tab Bar -->
+    <div class="admin-tab-bar">
+      <div class="admin-tab active" id="atab-customers" onclick="switchAdminTab('customers')">
+        <i class="fa-solid fa-users"></i> Customer Search
+      </div>
+      <div class="admin-tab" id="atab-orders" onclick="switchAdminTab('orders')">
+        <i class="fa-solid fa-receipt"></i> Order Management
+      </div>
+      <div class="admin-tab" id="atab-products" onclick="switchAdminTab('products')">
+        <i class="fa-solid fa-boxes-stacked"></i> Products
+      </div>
+    </div>
+
+    <!-- ═══════════ TAB: Customer Search ═══════════ -->
+    <div id="content-customers">
+      <div class="admin-search-bar">
+        <i class="fa-solid fa-magnifying-glass" style="color:var(--text-muted);"></i>
+        <input type="text" id="custSearchInput"
+               placeholder="Search customer name (e.g. Rahim)…"
+               onkeydown="if(event.key==='Enter') searchCustomer()" />
+        <button class="cta primary" onclick="searchCustomer()" id="custSearchBtn">
+          <i class="fa-solid fa-search"></i> Search
+        </button>
+      </div>
+      <div id="custResult">
+        <div class="empty-state">
+          <i class="fa-solid fa-user-magnifying-glass"></i>
+          <p>Search for a customer above to see their order history.</p>
         </div>
-        <div style="position:relative;display:flex;align-items:center;">
-          <i class="fa-solid fa-filter" style="position:absolute;left:16px;color:var(--text-muted);pointer-events:none;"></i>
-          <select id="categoryFilter" class="filter-select" style="padding-left:44px;">
-            <option value="">All Categories</option>
-            <option value="paints">Paints</option>
-            <option value="hardware">Hardware</option>
-            <option value="iron">Iron & Steel</option>
-            <option value="tools">Tools</option>
-            <option value="construction">Construction</option>
+      </div>
+    </div>
+
+    <!-- ═══════════ TAB: Order Management ═══════════ -->
+    <div id="content-orders" style="display:none;">
+      <div class="admin-search-bar" style="flex-wrap:wrap;gap:12px;">
+        <div>
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">Category</label>
+          <select id="orderCatFilter" style="min-width:160px;" onchange="loadOrders()">
+            <option value="all">All Categories</option>
+            <option value="Paints">Paints</option>
+            <option value="Hardware">Hardware</option>
+            <option value="Iron">Iron &amp; Steel</option>
+            <option value="Tools">Tools</option>
+            <option value="Construction">Construction</option>
           </select>
         </div>
+        <div>
+          <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">Time Range</label>
+          <div class="filter-chips" id="dayChips">
+            <div class="filter-chip active" data-days="0" onclick="setDays(0)">All Time</div>
+            <div class="filter-chip" data-days="3"  onclick="setDays(3)">Last 3 Days</div>
+            <div class="filter-chip" data-days="7"  onclick="setDays(7)">Last 7 Days</div>
+            <div class="filter-chip" data-days="30" onclick="setDays(30)">Last Month</div>
+          </div>
+        </div>
+        <button class="cta ghost" onclick="loadOrders()" style="align-self:flex-end;">
+          <i class="fa-solid fa-arrows-rotate"></i> Refresh
+        </button>
       </div>
-    </section>
 
-    <section class="products-table card">
-      <div style="overflow-x:auto;">
-        <table>
-          <thead>
-            <tr>
-              <th><i class="fa-solid fa-tag"></i> Product Name</th>
-              <th><i class="fa-solid fa-barcode"></i> SKU</th>
-              <th><i class="fa-solid fa-layer-group"></i> Category</th>
-              <th><i class="fa-solid fa-indian-rupee-sign"></i> Price</th>
-              <th><i class="fa-solid fa-cubes"></i> Stock</th>
-              <th><i class="fa-solid fa-circle-info"></i> Status</th>
-            </tr>
-          </thead>
-          <tbody id="productsBody">
-            <!-- Populated dynamically via PHP API -->
-          </tbody>
-        </table>
+      <div class="products-table card">
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th><i class="fa-solid fa-hashtag"></i> Order #</th>
+                <th><i class="fa-solid fa-user"></i> Customer</th>
+                <th><i class="fa-solid fa-calendar"></i> Date</th>
+                <th><i class="fa-solid fa-bangladeshi-taka-sign"></i> Total</th>
+                <th><i class="fa-solid fa-circle-info"></i> Status</th>
+                <th><i class="fa-solid fa-bolt"></i> Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ordersBody">
+              <tr><td colspan="6" class="empty-state" style="padding:40px;">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size:24px;margin-bottom:8px;display:block;"></i>
+                Loading orders…
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </section>
+    </div>
 
-    <section class="card action-section">
-      <a href="index.html" class="cta ghost"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
-    </section>
+    <!-- ═══════════ TAB: Products ═══════════ -->
+    <div id="content-products" style="display:none;">
+      <div class="admin-search-bar">
+        <i class="fa-solid fa-magnifying-glass" style="color:var(--text-muted);"></i>
+        <input type="text" id="searchInput" placeholder="Search product name or SKU…"
+               oninput="filterProducts()" />
+        <select id="categoryFilter" onchange="filterProducts()">
+          <option value="">All Categories</option>
+          <option value="paints">Paints</option>
+          <option value="hardware">Hardware</option>
+          <option value="iron">Iron &amp; Steel</option>
+          <option value="tools">Tools</option>
+          <option value="construction">Construction</option>
+        </select>
+      </div>
+      <div class="products-table card">
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th><i class="fa-solid fa-tag"></i> Product Name</th>
+                <th><i class="fa-solid fa-barcode"></i> SKU</th>
+                <th><i class="fa-solid fa-layer-group"></i> Category</th>
+                <th><i class="fa-solid fa-bangladeshi-taka-sign"></i> Price</th>
+                <th><i class="fa-solid fa-cubes"></i> Stock</th>
+                <th><i class="fa-solid fa-circle-info"></i> Status</th>
+                <th><i class="fa-solid fa-plus-circle"></i> Add Stock</th>
+              </tr>
+            </thead>
+            <tbody id="productsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </main>
+
+  <!-- Reject Feedback Modal -->
+  <div class="modal-overlay" id="rejectModal">
+    <div class="modal-box">
+      <h3 style="font-family:var(--font-heading);font-size:18px;margin-bottom:6px;">
+        <i class="fa-solid fa-ban" style="color:#ef4444;"></i> Reject Order
+      </h3>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">
+        Order: <strong id="rejectOrderNum" style="color:#fca5a5;"></strong>
+      </p>
+      <p style="font-size:13px;color:var(--text-muted);">Please provide a reason for rejection (sent to customer):</p>
+      <textarea id="rejectFeedback" placeholder="e.g. Item out of stock, payment issue, delivery area not covered…"></textarea>
+      <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end;">
+        <button class="action-btn btn-disabled" onclick="closeRejectModal()">
+          <i class="fa-solid fa-times"></i> Cancel
+        </button>
+        <button class="action-btn btn-reject" onclick="confirmReject()">
+          <i class="fa-solid fa-ban"></i> Confirm Reject
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Stock Modal -->
+  <div class="modal-overlay" id="addStockModal">
+    <div class="modal-box" style="border-color:rgba(16,185,129,.3);">
+      <h3 style="font-family:var(--font-heading);font-size:18px;margin-bottom:6px;">
+        <i class="fa-solid fa-plus-circle" style="color:#10b981;"></i> Add Stock
+      </h3>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">
+        Product: <strong id="addStockProductName" style="color:#6ee7b7;"></strong>
+      </p>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:6px;">Quantity to Add <span style="color:#ef4444;">*</span></label>
+        <input type="number" id="addStockQty" min="1" step="1" placeholder="e.g. 50"
+          onkeydown="if(event.key==='Enter') confirmAddStock()"
+          style="width:100%;padding:10px 14px;border-radius:var(--radius-md);border:1.5px solid rgba(16,185,129,.3);background:rgba(16,185,129,.05);color:var(--text);font-size:14px;box-sizing:border-box;" />
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:6px;">Note / Reference (optional)</label>
+        <input type="text" id="addStockNote" placeholder="e.g. Supplier RS-2024, Restocking"
+          onkeydown="if(event.key==='Enter') confirmAddStock()"
+          style="width:100%;padding:10px 14px;border-radius:var(--radius-md);border:1.5px solid rgba(16,185,129,.3);background:rgba(16,185,129,.05);color:var(--text);font-size:13px;box-sizing:border-box;" />
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button class="action-btn btn-disabled" onclick="closeAddStockModal()">
+          <i class="fa-solid fa-times"></i> Cancel
+        </button>
+        <button class="action-btn btn-accept" id="addStockConfirmBtn" onclick="confirmAddStock()">
+          <i class="fa-solid fa-plus"></i> Add Stock
+        </button>
+      </div>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <div class="container footer-row card">
-      <div>© <span id="year"></span> BANGLADESH PAINTS & HARDWARE</div>
-      <div class="footer-links"><i class="fa-solid fa-database"></i> Database-driven inventory management</div>
+      <div>© <span id="year"></span> BANGLADESH PAINTS &amp; HARDWARE</div>
+      <div class="footer-links"><i class="fa-solid fa-database"></i> Admin management panel</div>
     </div>
   </footer>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    const searchInput = document.getElementById('searchInput');
-    const categoryFilter = document.getElementById('categoryFilter');
-    searchInput.addEventListener('input', filterProducts);
-    categoryFilter.addEventListener('change', filterProducts);
-    
-    function filterProducts(){
-      const s=searchInput.value.toLowerCase(), c=categoryFilter.value.toLowerCase();
-      document.querySelectorAll('#productsBody tr').forEach(r=>{
-        const name=r.cells[0].textContent.toLowerCase(), sku=r.cells[1].textContent.toLowerCase(), cat=r.cells[2].textContent.toLowerCase();
-        const ms=name.includes(s)||sku.includes(s);
-        const mc=!c||(c==='iron'?cat.includes('iron'):cat.includes(c));
-        r.style.display=ms&&mc?'':'none';
+
+    let currentDays     = 0;
+    let pendingRejectId = null;
+
+    // ── Tab Switching ────────────────────────────────────
+    function switchAdminTab(tab) {
+      ['customers','orders','products'].forEach(t => {
+        document.getElementById('atab-' + t).classList.toggle('active', t === tab);
+        document.getElementById('content-' + t).style.display = t === tab ? 'block' : 'none';
       });
+      if (tab === 'products') loadProducts();
+      if (tab === 'orders')   loadOrders();
+    }
+
+    // ── Status helpers ───────────────────────────────────
+    function statusPill(s) {
+      const map = {
+        'Placed':     ['pill-placed',     'fa-clock',             'Placed'],
+        'Processing': ['pill-processing', 'fa-circle-check',      'Accepted'],
+        'Shipped':    ['pill-shipped',    'fa-truck-fast',        'Out for Delivery'],
+        'Delivered':  ['pill-delivered',  'fa-house-circle-check','Delivered'],
+        'Cancelled':  ['pill-cancelled',  'fa-ban',               'Cancelled'],
+      };
+      const [cls, icon, label] = map[s] || ['', 'fa-circle', s];
+      return `<span class="status-pill ${cls}"><i class="fa-solid ${icon}"></i> ${label}</span>`;
+    }
+
+    function actionBtns(order) {
+      const s = order.order_status;
+      const oid = order.order_id;
+      const onum = order.order_number;
+
+      if (s === 'Placed') {
+        return `
+          <button class="action-btn btn-accept"  onclick="acceptOrder(${oid},'${onum}')">
+            <i class="fa-solid fa-check"></i> Accept
+          </button>
+          <button class="action-btn btn-reject" onclick="openRejectModal(${oid},'${onum}')" style="margin-left:5px;">
+            <i class="fa-solid fa-ban"></i> Reject
+          </button>`;
+      }
+      if (s === 'Processing') {
+        return `
+          <button class="action-btn btn-deliver" onclick="deliverOrder(${oid},'${onum}')">
+            <i class="fa-solid fa-truck-fast"></i> Mark Shipped
+          </button>`;
+      }
+      if (s === 'Shipped') {
+        return `
+          <button class="action-btn btn-deliver" onclick="deliveredOrder(${oid},'${onum}')">
+            <i class="fa-solid fa-house-circle-check"></i> Mark Delivered
+          </button>`;
+      }
+      return `<span class="action-btn btn-disabled"><i class="fa-solid fa-lock"></i> ${s}</span>`;
+    }
+
+    // ── Order Actions ─────────────────────────────────────
+    async function orderAction(orderId, status, feedback = null) {
+      try {
+        const body = { order_id: orderId, status };
+        if (feedback) body.feedback = feedback;
+        const res  = await fetch('api/orders.php', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          loadOrders();
+          return true;
+        } else {
+          alert('Error: ' + (data.error || 'Unknown'));
+          return false;
+        }
+      } catch (e) {
+        alert('Network error: ' + e.message);
+        return false;
+      }
+    }
+
+    function acceptOrder(oid, onum) {
+      if (!confirm(`Accept order ${onum}?\n\nNote: Stock will be deducted from inventory.`)) return;
+      orderAction(oid, 'Processing');
+    }
+    function deliverOrder(oid, onum)   { orderAction(oid, 'Shipped'); }
+    function deliveredOrder(oid, onum) { orderAction(oid, 'Delivered'); }
+
+    // Reject modal
+    function openRejectModal(oid, onum) {
+      pendingRejectId = oid;
+      document.getElementById('rejectOrderNum').textContent = onum;
+      document.getElementById('rejectFeedback').value = '';
+      document.getElementById('rejectModal').style.display = 'flex';
+    }
+    function closeRejectModal() {
+      document.getElementById('rejectModal').style.display = 'none';
+      pendingRejectId = null;
+    }
+    async function confirmReject() {
+      const fb = document.getElementById('rejectFeedback').value.trim();
+      if (!fb) { alert('Please enter a rejection reason.'); return; }
+      const ok = await orderAction(pendingRejectId, 'Cancelled', fb);
+      if (ok) closeRejectModal();
+    }
+
+    // ── Day Filter ────────────────────────────────────────
+    function setDays(d) {
+      currentDays = d;
+      document.querySelectorAll('#dayChips .filter-chip').forEach(el => {
+        el.classList.toggle('active', parseInt(el.dataset.days) === d);
+      });
+      loadOrders();
+    }
+
+    // ── Load Orders ───────────────────────────────────────
+    async function loadOrders() {
+      const cat  = document.getElementById('orderCatFilter').value;
+      let url    = 'api/orders.php?admin=1';
+      const params = [];
+      if (currentDays > 0) params.push('days=' + currentDays);
+      if (cat && cat !== 'all') params.push('category=' + encodeURIComponent(cat));
+      if (params.length) url += '&' + params.join('&');
+
+      const tbody = document.getElementById('ordersBody');
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text-muted);">
+        <i class="fa-solid fa-spinner fa-spin" style="font-size:22px;margin-bottom:8px;display:block;"></i> Loading…
+      </td></tr>`;
+
+      try {
+        const res  = await fetch(url);
+        const data = await res.json();
+        if (!Array.isArray(data) || data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state">
+            <i class="fa-solid fa-inbox"></i>
+            <p>No orders found for the selected filters.</p>
+          </div></td></tr>`;
+          return;
+        }
+        tbody.innerHTML = data.map(o => `
+          <tr>
+            <td><strong style="color:var(--primary);">${o.order_number}</strong></td>
+            <td>
+              <strong>${o.customer_name}</strong>
+              <div style="font-size:11px;color:var(--text-muted);">${o.phone}</div>
+            </td>
+            <td style="white-space:nowrap;">${o.order_date ? o.order_date.split(' ')[0] : '—'}</td>
+            <td style="font-weight:700;">৳${(+o.total_amount).toLocaleString()}</td>
+            <td>${statusPill(o.order_status)}
+              ${o.admin_feedback ? `<div style="font-size:10px;color:var(--text-muted);margin-top:3px;">
+                <i class="fa-solid fa-comment-dots"></i> ${o.admin_feedback.substring(0,40)}…
+              </div>` : ''}
+            </td>
+            <td style="white-space:nowrap;">${actionBtns(o)}</td>
+          </tr>`).join('');
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="6" style="color:#fca5a5;text-align:center;padding:24px;">
+          Error loading orders: ${e.message}
+        </td></tr>`;
+      }
+    }
+
+    // ── Customer Search ──────────────────────────────────
+    async function searchCustomer() {
+      const q = document.getElementById('custSearchInput').value.trim();
+      if (!q) { alert('Enter a customer name to search.'); return; }
+
+      const btn = document.getElementById('custSearchBtn');
+      btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Searching…';
+      const el = document.getElementById('custResult');
+      el.innerHTML = '';
+
+      try {
+        const res  = await fetch('api/orders.php?admin=1&customer=' + encodeURIComponent(q));
+        const data = await res.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+          el.innerHTML = `<div class="empty-state">
+            <i class="fa-solid fa-user-slash"></i>
+            <p>No orders found for customer matching "<strong>${q}</strong>".</p>
+          </div>`;
+          return;
+        }
+
+        // Group by customer
+        const customers = {};
+        data.forEach(o => {
+          const key = o.customer_name + '|' + o.phone;
+          if (!customers[key]) {
+            customers[key] = {
+              name: o.customer_name, phone: o.phone,
+              address: o.address, type: o.customer_type,
+              orders: []
+            };
+          }
+          customers[key].orders.push(o);
+        });
+
+        let html = '';
+        Object.values(customers).forEach(cust => {
+          const initials = cust.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+          const totalSpend = cust.orders.reduce((s, o) => s + (+o.total_amount), 0);
+
+          const orderRows = cust.orders.map(o => `
+            <tr>
+              <td><strong style="color:var(--primary);">${o.order_number}</strong></td>
+              <td style="white-space:nowrap;">${o.order_date ? o.order_date.split(' ')[0] : '—'}</td>
+              <td style="font-weight:700;">৳${(+o.total_amount).toLocaleString()}</td>
+              <td>${statusPill(o.order_status)}</td>
+              <td style="max-width:160px;font-size:11px;color:var(--text-muted);">
+                ${o.admin_feedback || '—'}
+              </td>
+            </tr>`).join('');
+
+          html += `
+            <div class="customer-result-header">
+              <div class="customer-avatar">${initials}</div>
+              <div style="flex:1;">
+                <div style="font-family:var(--font-heading);font-size:18px;font-weight:800;">${cust.name}</div>
+                <div style="font-size:13px;color:var(--text-muted);">
+                  <i class="fa-solid fa-phone"></i> ${cust.phone}
+                  ${cust.address ? `&nbsp;|&nbsp;<i class="fa-solid fa-location-dot"></i> ${cust.address}` : ''}
+                </div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:11px;color:var(--text-muted);">${cust.type} · ${cust.orders.length} Orders</div>
+                <div style="font-size:18px;font-weight:800;color:var(--primary);">৳${totalSpend.toLocaleString()}</div>
+                <div style="font-size:11px;color:var(--text-muted);">Total Spend</div>
+              </div>
+            </div>
+            <div class="products-table card" style="margin-bottom:24px;">
+              <h4 style="font-family:var(--font-heading);font-size:13px;margin-bottom:14px;
+                text-transform:uppercase;color:var(--text-muted);letter-spacing:.05em;">
+                <i class="fa-solid fa-clock-rotate-left"></i> Order History (Oldest → Latest)
+              </h4>
+              <div style="overflow-x:auto;">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Order #</th><th>Date</th><th>Amount</th><th>Status</th><th>Feedback</th>
+                    </tr>
+                  </thead>
+                  <tbody>${orderRows}</tbody>
+                </table>
+              </div>
+            </div>`;
+        });
+
+        el.innerHTML = html;
+      } catch (e) {
+        el.innerHTML = `<div style="color:#fca5a5;text-align:center;padding:24px;">Error: ${e.message}</div>`;
+      } finally {
+        btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-search"></i> Search';
+      }
     }
 
     async function loadProducts() {
@@ -108,25 +596,98 @@
         const tbody = document.getElementById('productsBody');
         tbody.innerHTML = '';
         products.forEach(p => {
-          const badge = p.stock > 10 ? `<span class="badge in-stock"><i class="fa-solid fa-circle-check"></i> In Stock</span>` : 
-                        p.stock > 0 ? `<span class="badge low-stock"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock</span>` : 
-                        `<span class="badge out-stock"><i class="fa-solid fa-circle-xmark"></i> Out of Stock</span>`;
-          
-          tbody.innerHTML += `<tr>
+          const badge = p.stock > 10
+            ? `<span class="badge in-stock"><i class="fa-solid fa-circle-check"></i> In Stock</span>`
+            : p.stock > 0
+              ? `<span class="badge low-stock"><i class="fa-solid fa-triangle-exclamation"></i> Low Stock</span>`
+              : `<span class="badge out-stock"><i class="fa-solid fa-circle-xmark"></i> Out of Stock</span>`;
+          tbody.innerHTML += `<tr id="prow-${p.id}">
             <td><strong>${p.name}</strong></td>
-            <td>${p.sku}</td>
+            <td style="font-size:12px;color:var(--text-muted);">${p.sku}</td>
             <td>${p.category}</td>
-            <td>₹${p.price.toLocaleString()}</td>
-            <td>${p.stock}</td>
+            <td>৳${(+p.price).toLocaleString()}</td>
+            <td><strong id="pstock-${p.id}">${p.stock}</strong></td>
             <td>${badge}</td>
+            <td>
+              <button class="action-btn btn-accept" style="font-size:11px;padding:5px 12px;"
+                onclick="openAddStockModal(${p.id}, '${p.name.replace(/'/g, "\\'")}'  )">
+                <i class="fa-solid fa-plus"></i> Add Stock
+              </button>
+            </td>
           </tr>`;
         });
       } catch (err) {
         console.error('Error fetching products:', err);
       }
     }
-    
-    loadProducts();
+
+    function filterProducts() {
+      const s = document.getElementById('searchInput').value.toLowerCase();
+      const c = document.getElementById('categoryFilter').value.toLowerCase();
+      document.querySelectorAll('#productsBody tr').forEach(r => {
+        const name = r.cells[0]?.textContent.toLowerCase() || '';
+        const sku  = r.cells[1]?.textContent.toLowerCase() || '';
+        const cat  = r.cells[2]?.textContent.toLowerCase() || '';
+        const ms = name.includes(s) || sku.includes(s);
+        const mc = !c || (c === 'iron' ? cat.includes('iron') : cat.includes(c));
+        r.style.display = ms && mc ? '' : 'none';
+      });
+    }
+
+    // ── Add Stock Modal ────────────────────────────────────
+    let _addStockProductId = null;
+
+    function openAddStockModal(pid, name) {
+      _addStockProductId = pid;
+      document.getElementById('addStockProductName').textContent = name;
+      document.getElementById('addStockQty').value = '';
+      document.getElementById('addStockNote').value = '';
+      document.getElementById('addStockModal').style.display = 'flex';
+      setTimeout(() => document.getElementById('addStockQty').focus(), 100);
+    }
+
+    function closeAddStockModal() {
+      document.getElementById('addStockModal').style.display = 'none';
+      _addStockProductId = null;
+    }
+
+    async function confirmAddStock() {
+      const qty  = parseInt(document.getElementById('addStockQty').value);
+      const note = document.getElementById('addStockNote').value.trim() || 'Admin stock increase';
+      if (!qty || qty <= 0) { alert('Enter a valid quantity greater than 0.'); return; }
+
+      const btn = document.getElementById('addStockConfirmBtn');
+      btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Adding…';
+
+      try {
+        const res  = await fetch('api/inventory.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ product_id: _addStockProductId, quantity: qty, notes: note })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          // Update cell immediately
+          const cell = document.getElementById('pstock-' + _addStockProductId);
+          if (cell) cell.textContent = data.new_stock_qty;
+          // Flash row green
+          const row = document.getElementById('prow-' + _addStockProductId);
+          if (row) { row.style.background='rgba(16,185,129,.12)'; setTimeout(()=>row.style.background='',1500); }
+          closeAddStockModal();
+          // Reload full table after 1s
+          setTimeout(loadProducts, 1200);
+        } else {
+          alert('Error: ' + (data.error || 'Unknown'));
+        }
+      } catch (e) {
+        alert('Network error: ' + e.message);
+      } finally {
+        btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-plus"></i> Add Stock';
+      }
+    }
+
+    // ── Init ──────────────────────────────────────────────
+    loadOrders(); // pre-load for quick switch
   </script>
 </body>
 </html>

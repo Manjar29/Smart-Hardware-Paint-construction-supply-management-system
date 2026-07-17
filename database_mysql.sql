@@ -127,12 +127,13 @@ CREATE INDEX idx_customer_phone ON customers(phone);
 --  6. ORDERS
 -- ============================================================
 CREATE TABLE orders (
-    order_id      INT UNSIGNED    NOT NULL AUTO_INCREMENT,
-    order_number  VARCHAR(20)     NOT NULL DEFAULT '',
-    customer_id   INT UNSIGNED    NOT NULL,
-    order_date    DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    total_amount  DECIMAL(14,2)   NOT NULL DEFAULT 0.00,
-    order_status  VARCHAR(30)     NOT NULL DEFAULT 'Placed',
+    order_id        INT UNSIGNED    NOT NULL AUTO_INCREMENT,
+    order_number    VARCHAR(20)     NOT NULL DEFAULT '',
+    customer_id     INT UNSIGNED    NOT NULL,
+    order_date      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    total_amount    DECIMAL(14,2)   NOT NULL DEFAULT 0.00,
+    order_status    VARCHAR(30)     NOT NULL DEFAULT 'Placed',
+    admin_feedback  VARCHAR(500)    DEFAULT NULL,
     CONSTRAINT pk_orders         PRIMARY KEY (order_id),
     CONSTRAINT uq_order_number   UNIQUE (order_number),
     CONSTRAINT fk_order_customer FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
@@ -176,28 +177,14 @@ BEGIN
 END$$
 DELIMITER ;
 
--- Trigger: After item insert — deduct stock, log inventory, update order total
+-- Trigger: After item insert — ONLY update order total
+-- (Stock deduction now handled by admin Accept action, not at order placement)
 DELIMITER $$
 CREATE TRIGGER trg_after_order_item_insert
 AFTER INSERT ON order_items
 FOR EACH ROW
 BEGIN
-    DECLARE v_order_num VARCHAR(20);
-
-    -- Deduct stock
-    UPDATE products
-       SET stock_qty = stock_qty - NEW.quantity
-     WHERE product_id = NEW.product_id;
-
-    -- Get order number
-    SELECT order_number INTO v_order_num
-      FROM orders WHERE order_id = NEW.order_id;
-
-    -- Log inventory movement
-    INSERT INTO inventory_logs (product_id, movement_type, quantity, reference_type, reference_id, notes)
-    VALUES (NEW.product_id, 'OUT', NEW.quantity, 'Customer Order', v_order_num, 'Auto-deducted via order item insert');
-
-    -- Update order total
+    -- Update order total only
     UPDATE orders
        SET total_amount = total_amount + NEW.line_total
      WHERE order_id = NEW.order_id;

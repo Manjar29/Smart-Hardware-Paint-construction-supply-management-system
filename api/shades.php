@@ -11,7 +11,7 @@ if ($method === 'GET') {
                      s.shade_code  AS id,
                      s.shade_name  AS name,
                      s.formula_code AS code,
-                     s.category    AS cat,
+                     s.category    AS category,
                      s.rgb_value   AS rgb,
                      s.mix_formula AS mix,
                      s.finish_type AS finish
