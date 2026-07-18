@@ -204,6 +204,7 @@ if ($method === 'POST') {
         if (count($existing) > 0) {
             $customerId = $existing[0]['customer_id'];
         } else {
+            $pdo->exec("SAVEPOINT create_customer");
             try {
                 $sql = "INSERT INTO customers (full_name, phone, address, customer_type)
                         VALUES (:name, :phone, :address, 'Retail')";
@@ -214,6 +215,8 @@ if ($method === 'POST') {
                 ]);
                 $customerId = $out['new_id'];
             } catch (Exception $dupEx) {
+                // Rollback to savepoint if insertion failed (e.g., due to duplicate phone race condition)
+                $pdo->exec("ROLLBACK TO SAVEPOINT create_customer");
                 $existing = fetchAll("SELECT customer_id FROM customers WHERE phone = :phone", ['phone' => $customer['phone']]);
                 if (count($existing) > 0) {
                     $customerId = $existing[0]['customer_id'];
