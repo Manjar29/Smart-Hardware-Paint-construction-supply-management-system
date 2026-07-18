@@ -367,5 +367,72 @@ SELECT 'inventory_logs',            COUNT(*)           FROM inventory_logs UNION
 SELECT 'suppliers',                 COUNT(*)           FROM suppliers;
 
 -- ============================================================
+--  10. STORED PROCEDURE (Cursor & Transactions)
+-- ============================================================
+-- Example showing Cursor, Transaction, Savepoint, Rollback, and Commit
+DELIMITER $$
+CREATE PROCEDURE sp_restock_low_inventory(IN p_restock_amount INT)
+BEGIN
+    -- Variables for cursor
+    DECLARE v_product_id INT;
+    DECLARE v_stock_qty INT;
+    DECLARE v_safety_level INT;
+    DECLARE v_done INT DEFAULT FALSE;
+    
+    -- 1. Declare Cursor
+    DECLARE cur_low_stock CURSOR FOR 
+        SELECT product_id, stock_qty, safety_level 
+        FROM products 
+        WHERE stock_qty < safety_level AND status = 'Active';
+        
+    -- Declare Continue Handler for Cursor
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_done = TRUE;
+    
+    -- 2. Start Transaction
+    START TRANSACTION;
+    
+    OPEN cur_low_stock;
+    
+    read_loop: LOOP
+        FETCH cur_low_stock INTO v_product_id, v_stock_qty, v_safety_level;
+        
+        IF v_done THEN
+            LEAVE read_loop;
+        END IF;
+        
+        -- 3. Create a Savepoint before modifying this specific product
+        SAVEPOINT sp_before_restock;
+        
+        BEGIN
+            DECLARE v_error INT DEFAULT FALSE;
+            -- Handle potential errors inside the loop
+            DECLARE CONTINUE HANDLER FOR SQLEXCEPTION SET v_error = TRUE;
+            
+            -- Update the product stock
+            UPDATE products 
+            SET stock_qty = stock_qty + p_restock_amount 
+            WHERE product_id = v_product_id;
+            
+            -- Log the inventory movement
+            INSERT INTO inventory_logs (product_id, movement_type, quantity, reference_type, notes) 
+            VALUES (v_product_id, 'IN', p_restock_amount, 'Bulk Restock SP', 'Restocked via stored procedure');
+            
+            -- 4. Rollback to Savepoint if an error occurred during update or insert for this item
+            IF v_error THEN
+                ROLLBACK TO sp_before_restock;
+            END IF;
+        END;
+        
+    END LOOP;
+    
+    CLOSE cur_low_stock;
+    
+    -- 5. Commit the entire transaction
+    COMMIT;
+    
+END$$
+DELIMITER ;
+
+-- ============================================================
 --  END OF SCHEMA
 -- ============================================================
